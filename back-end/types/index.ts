@@ -1,3 +1,6 @@
+import { Club } from "../model/club";
+import { Member } from "../model/member";
+
 type Role = 'admin' | 'organiser' | 'member' | 'guest';
 type ClubType = 'Chess' | 'Rugby' | 'DnD' | 'Soccer' | 'Tennis' | 'Capoeira' | 'Kizomba' ;
 
@@ -29,11 +32,23 @@ type UserInput = {
     role: Role;
 };
 
+type EventInput = {
+    id?: number;
+    title: string;
+    description: string;
+    location: string;
+    date: Date;
+    time: number;
+    participants: Member[];
+    club: ClubInput;
+}
+
 export {
     Role,
     ClubType,
     ClubInput,
     MemberInput,
     OrganiserInput,
-    UserInput
+    UserInput,
+    EventInput
 };

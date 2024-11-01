@@ -16,4 +16,11 @@ export class Member {
     getUser(): User {
         return this.user;
     }
+
+    equals(member: Member): boolean {
+        return (
+            this.id === member.getId() &&
+            this.user.equals(member.getUser())
+        );
+    }
 }
