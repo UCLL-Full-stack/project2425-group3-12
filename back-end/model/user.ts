@@ -8,10 +8,10 @@ export class User {
     private password: string;
     private role: Role;
 
-    constructor(user: {id?: number; firstname: string; lastname: string; email: string; password: string, role: Role}){
+    constructor(user: {id?: number; firstName: string; lastName: string; email: string; password: string, role: Role}){
         this.id = user.id;
-        this.firstName = user.firstname;
-        this.lastName = user.lastname;
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
         this.email = user.email;
         this.password = user.password;
         this.role = user.role;
