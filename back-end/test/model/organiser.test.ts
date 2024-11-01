@@ -6,7 +6,8 @@ const validUser = new User({
     firstname: "John",
     lastname: "Doe",
     email: "john.doe@mail.com",
-    password: "password"
+    password: "password",
+    role: "organiser"
 });
 
 test('given: valid user, when: creating organiser, then: organiser is created', () => {

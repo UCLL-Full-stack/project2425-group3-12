@@ -8,7 +8,8 @@ const validUser = new User({
     firstname: "John",
     lastname: "Doe",
     email: "john.doe@mail.com",
-    password: "password"
+    password: "password",
+    role: "organiser"
 });
 const validOrganiser = new Organiser({
     user: validUser
@@ -17,13 +18,15 @@ const jackDoe = new User({
     firstname: "Jack",
     lastname: "Doe",
     email: "jack.doe@mail.com",
-    password: "password"
+    password: "password",
+    role: "member"
 });
 const janeDoe = new User({
     firstname: "Jane",
     lastname: "Doe",
     email: "jane.doe@mail.com",
-    password: "password"
+    password: "password",
+    role: "member"
 });
 const member1 = new Member({
     user: jackDoe
@@ -74,7 +77,8 @@ test('given valid club, when: adding member to club, then: member is added to cl
             firstname: "Jill",
             lastname: "Doe",
             email: "jill.doe@mail.com",
-            password: "password"
+            password: "password",
+            role: "member"
         })
     });
     //when
