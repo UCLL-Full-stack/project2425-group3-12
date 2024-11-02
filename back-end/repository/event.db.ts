@@ -102,7 +102,7 @@ const events: Event[] = [
         location: "Community Hall",
         date: new Date('2024-12-05'),
         time: 1000,
-        participants: [],
+        participants: [memberAlice],
         club: club1
     }),
     new Event({
@@ -112,7 +112,7 @@ const events: Event[] = [
         location: "City Stadium",
         date: new Date('2024-11-07'),
         time: 1400,
-        participants: [],
+        participants: [memberCharlie, memberDavid],
         club: club2
     })
 ];

@@ -1,15 +1,13 @@
 import React from 'react';
 import { Event } from '@types';
-import Head from 'next/head';
-import Header from '@components/header';
-import styles from '@styles/home.module.css';
 
 type Props = {
     events: Array<Event>;
+    selectEvent: (event: Event) => void;
 };
 
 
-const EventsOverviewtable: React.FC<Props> = ({events}: Props) => {
+const EventsOverviewtable: React.FC<Props> = ({events, selectEvent}: Props) => {
     return (
         <>
             {events &&  (
@@ -26,7 +24,7 @@ const EventsOverviewtable: React.FC<Props> = ({events}: Props) => {
                     </thead>
                     <tbody>
                         {events.map((event, index) => (
-                            <tr key={index}>
+                            <tr key={index} onClick={() => selectEvent(event)} role="button">
                                 <td>{event.title}</td>
                                 <td>{event.description}</td>
                                 <td>{event.location}</td>

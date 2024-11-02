@@ -134,7 +134,7 @@ test('given a valid event, when event is created, then event is created with tho
     expect(mockEventDbCreateNewEvent).toHaveBeenCalledWith(new Event({title, description, location, date, time, participants: [], club}));
 })
 
-test('', () => {
+test('given an event already scheduled for the club, when creating a new event, then an error is thrown', () => {
     //given
     mockClubDbGetClubById.mockReturnValue(club);
     eventDb.getEventsByClub = mockEventDbGetEventByClub.mockReturnValue(new Event({title, description, location, date, time, participants: [], club}));
