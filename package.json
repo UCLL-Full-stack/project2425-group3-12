@@ -5,7 +5,7 @@
     "ts-jest": "^29.2.5"
   },
   "scripts": {
-        "test": "jest",
-        "start": "nodemon -L app.ts --delay 3"
+    "test": "jest",
+    "start": "nodemon -L app.ts --delay 3"
   }
 }

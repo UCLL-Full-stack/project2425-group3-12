@@ -131,8 +131,14 @@ const createNewEvent = (eventInfo: Event): Event => {
     return event
 }
 
+const getEventsByClub = ({id}: {id: number}): Event[] => {
+    const eventsWithClub = events.filter(event => event.getClub().getId() === id);
+    return eventsWithClub
+}
+
 export default {
     getAllEvents,
     getEventById,
-    createNewEvent
+    createNewEvent,
+    getEventsByClub
 };

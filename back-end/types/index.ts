@@ -9,8 +9,9 @@ type ClubInput = {
     name: string;
     description: string;
     type: ClubType;
-    members: MemberInput[];
+    members: Member[];
     organiser: OrganiserInput;
+    events: EventInput[];
 };
 
 type MemberInput = {
