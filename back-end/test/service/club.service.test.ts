@@ -60,3 +60,15 @@ test('given: a valid id for a club, when: getting club by id, then: club is retu
     //then
     expect(club).toBe(club);
 });
+
+test('given: invalid id for a club, when: getting club by id, then: error is thrown', () => {
+    // given
+    const clubInput = {
+        id: 100,
+    };
+    // when
+    const getClubById = () => clubService.getClubById(clubInput.id);
+
+    // then
+    expect(getClubById).toThrow('Club with id 100 does not exist');
+})

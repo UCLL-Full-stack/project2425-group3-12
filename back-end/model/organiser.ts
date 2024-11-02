@@ -17,19 +17,6 @@ export class Organiser {
         return this.user;
     }
 
-    // TODO
-    createEvent(): Event {
-        throw new Error("Method not implemented.");
-    }
-    // TODO
-    deleteEvent(): Event {
-        throw new Error("Method not implemented.");
-    }
-    // TODO
-    confirmSignup(): boolean {
-        throw new Error("Method not implemented.");
-    }
-
     equals(organiser: Organiser): boolean {
         return (
             this.id === organiser.getId() &&

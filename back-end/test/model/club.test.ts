@@ -89,3 +89,50 @@ test('given valid club, when: adding member to club, then: member is added to cl
     //then
     expect(club.getMembers()).toContain(member);
 });
+
+test('given: valid club, when: comparing clubs, then: clubs are equal', () => {
+    // given
+    const clubName = "Hawaii Try-O";
+    const clubDescription = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+    const clubType = "Rugby";
+    const club = new Club({
+        id: 1,
+        name: clubName,
+        description: clubDescription,
+        type: clubType,
+        members: members,
+        organiser: validOrganiser,
+        events: []
+    });
+
+    //then
+    expect(club.equals(club)).toBeTruthy();
+});
+
+test('given: valid club, when: comparing clubs, then: clubs are not equal', () => {
+    // given
+    const clubName = "Hawaii Try-O West";
+    const clubDescription = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+    const clubType = "Rugby";
+    const club = new Club({
+        id: 1,
+        name: clubName,
+        description: clubDescription,
+        type: clubType,
+        members: members,
+        organiser: validOrganiser,
+        events: []
+    });
+    const club2 = new Club({
+        id: 2,
+        name: "Hawaii Try-O East",
+        description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        type: "Rugby",
+        members: members,
+        organiser: validOrganiser,
+        events: []
+    });
+
+    //then
+    expect(club.equals(club2)).toBeFalsy();
+});
