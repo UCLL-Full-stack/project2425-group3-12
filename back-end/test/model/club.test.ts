@@ -5,8 +5,8 @@ import { User } from "../../model/user";
 
 //given
 const validUser = new User({
-    firstname: "John",
-    lastname: "Doe",
+    firstName: "John",
+    lastName: "Doe",
     email: "john.doe@mail.com",
     password: "password",
     role: "organiser"
@@ -15,15 +15,15 @@ const validOrganiser = new Organiser({
     user: validUser
 });
 const jackDoe = new User({
-    firstname: "Jack",
-    lastname: "Doe",
+    firstName: "Jack",
+    lastName: "Doe",
     email: "jack.doe@mail.com",
     password: "password",
     role: "member"
 });
 const janeDoe = new User({
-    firstname: "Jane",
-    lastname: "Doe",
+    firstName: "Jane",
+    lastName: "Doe",
     email: "jane.doe@mail.com",
     password: "password",
     role: "member"
@@ -48,7 +48,8 @@ test('givev: valid values for club, when: creating club, then: club is created',
         description: clubDescription,
         type: clubType,
         members: members,
-        organiser: validOrganiser
+        organiser: validOrganiser,
+        events: []
     });
 
 
@@ -70,12 +71,13 @@ test('given valid club, when: adding member to club, then: member is added to cl
         description: clubDescription,
         type: clubType,
         members: members,
-        organiser: validOrganiser
+        organiser: validOrganiser,
+        events: []
     });
     const newMember = new Member({
         user: new User({
-            firstname: "Jill",
-            lastname: "Doe",
+            firstName: "Jill",
+            lastName: "Doe",
             email: "jill.doe@mail.com",
             password: "password",
             role: "member"
