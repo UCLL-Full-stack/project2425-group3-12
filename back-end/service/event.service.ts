@@ -15,17 +15,15 @@ const getEventById = (id: number) : Event | null => {
     return event;
 }
 
-const createNewEvent = async ({title, description, location, date, time, participants, club: clubInput}: EventInput): Promise<Event> => {
+const createNewEvent = ({title, description, location, date, time, participants, club: clubInput}: EventInput): Event => {
     if (clubInput.id === undefined) {
         throw new Error('Club id is required.');
     }
-
     const club = clubDb.getClubById({id: clubInput.id});
 
     if(!club){
         throw new Error(`Club not found with the given ID`);
     }
-
     if(!date){
         throw new Error(`Date is required`);
     }
@@ -39,7 +37,7 @@ const createNewEvent = async ({title, description, location, date, time, partici
     // already existing event for club
     const EventAlreadyExists = eventDb.getEventsByClub({id: clubInput.id});
     if (EventAlreadyExists.length > 0) {
-        for await (const event of EventAlreadyExists) {
+        for (const event of EventAlreadyExists) {
             if (event.getDate() === date && event.getTime() === time && event.getTitle() === title) {
                 throw new Error('This event is already scheduled for this club.');
             }
