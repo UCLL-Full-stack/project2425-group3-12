@@ -33,7 +33,7 @@ const EventsOverviewtable: React.FC<Props> = ({events}: Props) => {
                                 <td>{event.location}</td>
                                 <td>{event.date.toString()}</td>
                                 <td>{event.time}</td>
-                                <td>{event.participants.join(', ')}</td>
+                                <td>{event.participants.map(participant => participant.user.firstName).join(', ')}</td>
                                 <td>{event.club.name}</td>
                             </tr>
                         ))}

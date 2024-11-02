@@ -5,7 +5,6 @@ const getAllEvents = async () => {
     return await fetch(process.env.NEXT_PUBLIC_API_URL + "/events");
 };
   
-
   
 const EventService = {
     getAllEvents,
