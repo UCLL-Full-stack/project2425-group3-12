@@ -28,7 +28,7 @@ const EventsOverviewtable: React.FC<Props> = ({events, selectEvent}: Props) => {
                                 <td>{event.title}</td>
                                 <td>{event.description}</td>
                                 <td>{event.location}</td>
-                                <td>{event.date.toString()}</td>
+                                <td>{new Date(event.date).toLocaleDateString()}</td>
                                 <td>{event.time}</td>
                                 <td>{event.club.name}</td>
                             </tr>
