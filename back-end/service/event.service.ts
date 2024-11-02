@@ -16,36 +16,28 @@ const getEventById = (id: number) : Event | null => {
 }
 
 const createNewEvent = ({title, description, location, date, time, participants, club: clubInput}: EventInput): Event => {
-    if (clubInput.id === undefined) {
-        throw new Error('Club id is required.');
-    }
+    if (!clubInput.id) throw new Error('Club id is required.');
+    
     const club = clubDb.getClubById({id: clubInput.id});
+    if(!club) throw new Error(`Club not found with the given ID`);
+    
+    if(!date) throw new Error(`Date is required`);
+    if(!location) throw new Error(`Location is required`);
+    if(!title) throw new Error(`Title is required`);
 
-    if(!club){
-        throw new Error(`Club not found with the given ID`);
-    }
-    if(!date){
-        throw new Error(`Date is required`);
-    }
-    if(!location){
-        throw new Error(`Location is required`);
-    }
-    if(!title){
-        throw new Error(`Title is required`);
-    }
+    // Check for already existing event for club
+    const existingEvents = eventDb.getEventsByClub({id: clubInput.id});
+    const newEvent = new Event({title, description, location, date, time, participants, club});
+    
+    const duplicateEvent = existingEvents.find(existingEvent => 
+        existingEvent.isDuplicateOf(newEvent)
+    );
 
-    // already existing event for club
-    const EventAlreadyExists = eventDb.getEventsByClub({id: clubInput.id});
-    if (EventAlreadyExists.length > 0) {
-        for (const event of EventAlreadyExists) {
-            if (event.getDate() === date && event.getTime() === time && event.getTitle() === title) {
-                throw new Error('This event is already scheduled for this club.');
-            }
-        }
+    if (duplicateEvent) {
+        throw new Error(`An event at the specified date and time already exists for this club`);
     }
 
-    const event = new Event({title, description, location, date, time, participants, club});
-    return eventDb.createNewEvent(event);
+    return eventDb.createNewEvent(newEvent);
 }
 
 export default { 

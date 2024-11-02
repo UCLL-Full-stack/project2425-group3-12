@@ -101,7 +101,7 @@ const events: Event[] = [
         description: "A competitive chess tournament with prizes for the top three participants.",
         location: "Community Hall",
         date: new Date('2024-12-05'),
-        time: 1000,
+        time: "10:00",
         participants: [memberAlice],
         club: club1
     }),
@@ -111,7 +111,7 @@ const events: Event[] = [
         description: "A competitive rugby match bringing together local teams for the championship title.",
         location: "City Stadium",
         date: new Date('2024-11-07'),
-        time: 1400,
+        time: "14:00",
         participants: [memberCharlie, memberDavid],
         club: club2
     })
