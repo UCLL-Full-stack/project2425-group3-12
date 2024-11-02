@@ -5,6 +5,7 @@ import * as bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { clubRouter } from './controller/club.routes';
+import { eventRouter } from './controller/event.routes';
 
 const app = express();
 dotenv.config();
@@ -14,7 +15,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Define the route for the clubs
-app.use('/clubs', clubRouter);    
+app.use('/clubs', clubRouter);   
+app.use('/events', eventRouter) 
 
 // Define a route for the back-end status
 app.get('/status', (req, res) => {

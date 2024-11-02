@@ -8,17 +8,17 @@ export class Event {
     private location: string;
     private date: Date;
     private time: number;
-    private particapants: Member[];
+    private participants: Member[];
     private club: Club;
 
-    constructor(event: {id?: number; title: string; description: string; location: string; date: Date; time: number; participants: []; club: Club;}){
+    constructor(event: {id?: number; title: string; description: string; location: string; date: Date; time: number; participants: Member[]; club: Club;}){
         this.id = event.id;
         this.title = event.title;
         this.description = event.description;
         this.location = event.location;
         this.date = event.date;
         this.time = event.time;
-        this.particapants = event.participants;
+        this.participants = event.participants;
         this.club = event.club;
     }
 
@@ -47,11 +47,11 @@ export class Event {
     }
 
     getParticipants(): Member[] {
-        return this.particapants;
+        return this.participants;
     }
 
     addParticipantToEvent(participant: Member): Member {
-        this.particapants.push(participant);
+        this.participants.push(participant);
         return participant;
     }
 
@@ -66,7 +66,7 @@ export class Event {
             this.location === event.getLocation() &&
             this.date === event.getDate() &&
             this.time === event.getTime() &&
-            this.particapants === event.getParticipants() &&
+            this.participants === event.getParticipants() &&
             this.club === event.getClub()
         );
     }

@@ -31,6 +31,9 @@ export class Organiser {
     }
 
     equals(organiser: Organiser): boolean {
-        return this.id === organiser.getId();
+        return (
+            this.id === organiser.getId() &&
+            this.user.equals(organiser.getUser())
+        );
     }
 }

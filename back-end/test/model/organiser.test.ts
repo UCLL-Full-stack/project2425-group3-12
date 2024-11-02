@@ -3,8 +3,8 @@ import { User } from "../../model/user";
 
 //given
 const validUser = new User({
-    firstname: "John",
-    lastname: "Doe",
+    firstName: "John",
+    lastName: "Doe",
     email: "john.doe@mail.com",
     password: "password",
     role: "organiser"
