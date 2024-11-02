@@ -21,19 +21,17 @@ const EventsOverviewtable: React.FC<Props> = ({events}: Props) => {
                             <th scope="col">Location</th>
                             <th scope="col">Date</th>
                             <th scope="col">Time</th>
-                            <th scope="col">Participants</th>
                             <th scope="col">Club</th>
                         </tr>
                     </thead>
                     <tbody>
                         {events.map((event, index) => (
-                            <tr>
+                            <tr key={index}>
                                 <td>{event.title}</td>
                                 <td>{event.description}</td>
                                 <td>{event.location}</td>
                                 <td>{event.date.toString()}</td>
                                 <td>{event.time}</td>
-                                <td>{event.participants.map(participant => participant.user.firstName).join(', ')}</td>
                                 <td>{event.club.name}</td>
                             </tr>
                         ))}

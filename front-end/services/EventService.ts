@@ -1,8 +1,11 @@
-import { fetchExternalImage } from "next/dist/server/image-optimizer";
-import Events from "pages/events";
-
 const getAllEvents = async () => {
-    return await fetch(process.env.NEXT_PUBLIC_API_URL + "/events");
+    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/events",  {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    return response;
 };
   
   
