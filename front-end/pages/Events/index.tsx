@@ -35,7 +35,6 @@ const Events: React.FC = () => {
                             events = {events}
                         />
                     )
-
                     }
                 </section>
             </main>

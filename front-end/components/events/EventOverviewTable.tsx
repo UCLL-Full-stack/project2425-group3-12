@@ -43,4 +43,5 @@ const EventsOverviewtable: React.FC<Props> = ({events}: Props) => {
         </>
      );
 };
+
 export default EventsOverviewtable;
