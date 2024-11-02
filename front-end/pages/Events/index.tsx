@@ -26,6 +26,7 @@ const Events: React.FC = () => {
             <Head>
                 <title>Game Events</title>
             </Head>
+            <Header/>
             <main className="d-flex flex-column justify-content-center align-items-center">
                 <h1>Game Events</h1>
                 <section>
