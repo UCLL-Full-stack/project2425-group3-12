@@ -31,9 +31,9 @@ const EventsOverviewtable: React.FC<Props> = ({events}: Props) => {
                                 <td>{event.title}</td>
                                 <td>{event.description}</td>
                                 <td>{event.location}</td>
-                                <td>{event.date.toISOString()}</td>
+                                {/* <td>{event.date.toISOString()}</td> */}
                                 <td>{event.time}</td>
-                                
+                                {/* participants */}
                                 <td>{event.club.name}</td>
                             </tr>
                         ))}
