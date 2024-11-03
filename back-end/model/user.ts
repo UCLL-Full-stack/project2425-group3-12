@@ -9,6 +9,8 @@ export class User {
     private role: Role;
 
     constructor(user: {id?: number; firstName: string; lastName: string; email: string; password: string, role: Role}){
+        this.validate(user); // Perform validation before setting properties
+        
         this.id = user.id;
         this.firstName = user.firstName;
         this.lastName = user.lastName;
