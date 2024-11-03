@@ -45,27 +45,6 @@
  *                      format: int64
  *                  user:
  *                      $ref: '#/components/schemas/User'
- *          Event:
- *              type: object
- *              properties:
- *                  id:
- *                      type: integer
- *                      format: int64
- *                  title:
- *                      type: string
- *                  description:
- *                      type: string
- *                  location:
- *                      type: string
- *                  date:
- *                      type: string
- *                      format: date-time
- *                  time:
- *                      type: integer
- *                  participants:
- *                      type: array
- *                      items:
- *                          $ref: '#/components/schemas/User'
  *          User:
  *              type: object
  *              properties:

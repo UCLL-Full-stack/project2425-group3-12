@@ -25,9 +25,15 @@ const createNewEvent = ({title, description, location, date, time, participants,
     if(!location) throw new Error(`Location is required`);
     if(!title) throw new Error(`Title is required`);
 
+    // Convert the date string to a Date object
+    const dateObject = new Date(`${date}T00:00:00.000Z`);
+    if (dateObject.toString() === 'Invalid Date') {
+        throw new Error('Invalid date');
+    }
+
     // Check for already existing event for club
     const existingEvents = eventDb.getEventsByClub({id: clubInput.id});
-    const newEvent = new Event({title, description, location, date, time, participants, club});
+    const newEvent = new Event({title, description, location, date: dateObject, time, participants, club});
     
     const duplicateEvent = existingEvents.find(existingEvent => 
         existingEvent.isDuplicateOf(newEvent)
