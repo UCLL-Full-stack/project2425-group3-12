@@ -38,7 +38,7 @@ type EventInput = {
     title: string;
     description: string;
     location: string;
-    date: Date;
+    date: string;
     time: string;
     participants: Member[];
     club: ClubInput;

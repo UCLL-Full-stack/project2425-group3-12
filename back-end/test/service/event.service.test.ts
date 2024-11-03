@@ -12,7 +12,8 @@ import eventService from '../../service/event.service';
 const title = "Annual Chess Tournament";
 const description = "A competitive chess tournament with prizes for the top three participants.";
 const location = "Community Hall";
-const date = new Date('2024-12-05');
+const date = new Date("2024-12-05");
+const dateString = "2024-12-05";
 const time = "10:00";
 
 // Organiser details
@@ -118,7 +119,7 @@ test('given a valid event, when crating a new event, then event is created with 
     const title2 = "EK Chess";
     const description2 = "European Chess Championship";
     const location2 = "Naamsestraat 15, Leuven";
-    const date2 = new Date('2024-12-08');
+    const date2 = "2024-12-08";
     const time2 = "14:00";
     
     
@@ -134,16 +135,8 @@ test('given a valid event, when crating a new event, then event is created with 
     });
 
     //then
-    expect(mockEventDbCreateNewEvent).toHaveBeenCalledWith(expect.objectContaining({
-        title: title2,
-        description: description2,
-        location: location2,
-        date: date2,
-        time: time2,
-        participants: [],
-        club: expect.objectContaining({ id: clubInput.id })
-    }));
     expect(mockClubDbGetClubById).toHaveBeenCalledWith({ id: clubInput.id });
+    expect(mockEventDbCreateNewEvent).toHaveBeenCalledWith(newEvent);
 });
 
 test('given an event already scheduled for the club, when creating a new event, then an error is thrown', () => {
@@ -157,7 +150,7 @@ test('given an event already scheduled for the club, when creating a new event, 
         title,
         description,
         location,
-        date,
+        date: dateString,
         time,
         participants: [],
         club: clubInput
