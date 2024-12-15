@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model
+model User {
+  id            Int         @id @default(autoincrement())
+  firstName     String
+  lastName      String
+  email         String      @unique
+  password      String
+  role          String
+  member        Member?     // Optional relation since a user can be either member or organiser
+  organiser     Organiser?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+// Member model
+model Member {
+  id            Int         @id @default(autoincrement())
+  userId        Int         @unique  // Ensures one-to-one relationship with User
+  user          User        @relation(fields: [userId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+// Organiser model
+model Organiser {
+  id            Int         @id @default(autoincrement())
+  userId        Int         @unique  // Ensures one-to-one relationship with User
+  user          User        @relation(fields: [userId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
