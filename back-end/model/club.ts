@@ -55,6 +55,34 @@ export class Club {
         return this.events;
     }
 
+    validate(club: {
+        name: string;
+        description: string;
+        type: ClubType;
+        members: Member[];
+        organiser: Organiser;
+        events: Event[];
+    }) {
+        if (!club.name?.trim()) {
+            throw new Error('Name is required');
+        }
+        if (!club.description?.trim()) {
+            throw new Error('Description is required');
+        }
+        if (!club.type) {
+            throw new Error('Type is required');
+        }
+        if (!club.members) {
+            throw new Error('Members are required');
+        }
+        if (!club.organiser) {
+            throw new Error('Organiser is required');
+        }
+        if (!club.events) {
+            throw new Error('Events are required');
+        }
+    }
+
     equals(club: Club): boolean {
         return (
             this.id === club.getId() &&
