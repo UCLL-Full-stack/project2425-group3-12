@@ -23,4 +23,8 @@ export class Member {
             this.user.equals(member.getUser())
         );
     }
+
+    static from(participant: { id: number; userId: number; createdAt: Date; updatedAt: Date; eventId: number | null; } & { user: { id: number; username: string; firstName: string; lastName: string; email: string; password: string; role: string; createdAt: Date; updatedAt: Date; }; }): any {
+        throw new Error('Method not implemented.');
+    }
 }

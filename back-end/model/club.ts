@@ -66,4 +66,8 @@ export class Club {
             this.events === club.getEvents()
         );
     }
+
+    static from(club: { id: number; name: string; description: string; type: string; organiserId: number; createdAt: Date; updatedAt: Date; } & { organiser: { id: number; userId: number; createdAt: Date; updatedAt: Date; } & { user: { id: number; username: string; firstName: string; lastName: string; email: string; password: string; role: string; createdAt: Date; updatedAt: Date; }; }; members: ({ id: number; userId: number; createdAt: Date; updatedAt: Date; eventId: number | null; } & { user: { id: number; username: string; firstName: string; lastName: string; email: string; password: string; role: string; createdAt: Date; updatedAt: Date; }; })[]; }): Club {
+        throw new Error('Method not implemented.');
+    }
 }

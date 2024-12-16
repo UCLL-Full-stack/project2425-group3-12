@@ -4,6 +4,8 @@ import { Member } from "../model/member";
 import { Organiser } from "../model/organiser";
 import { Club } from "../model/club";
 
+import database from "./database";
+
 // create 2 organisers
 const organiserJohnDoe = new Organiser({
     id: 1,
@@ -117,23 +119,152 @@ const events: Event[] = [
     })
 ];
 
-const getAllEvents = (): Event[] => {
-    return events;
+
+// al geupdate met story 20
+const getAllEvents = async (): Promise<Event[]> => {
+    try {
+        const eventPrisma = await database.event.findMany({
+            include: {
+                club: {
+                    include: {
+                        organiser: {
+                            include: {
+                                user: true,
+                            },
+                        },
+                        members: {
+                            include: {
+                                user: true, 
+                            },
+                        },
+                    },
+                },
+                participants: {
+                    include: {
+                        user: true, 
+                    },
+                },
+            },
+        });
+        return eventPrisma.map((eventPrisma) => Event.from(eventPrisma));
+    } catch (error){
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 }
 
-const getEventById = ({ id }: { id: number }): Event | null => {
-    return events.find(event => event.getId() === id) || null;
+// al geupdate met story 20
+const getEventById = async ({ id }: { id: number }): Promise<Event | null> => {
+    try {
+        const eventPrisma = await database.event.findUnique({
+            where: { id },
+            include: {
+                club: {
+                    include: {
+                        organiser: {
+                            include: {
+                                user: true,
+                            },
+                        },
+                        members: {
+                            include: {
+                                user: true, 
+                            },
+                        },
+                    },
+                },
+                participants: {
+                    include: {
+                        user: true, 
+                    },
+                },
+            },},
+        );
+
+        return eventPrisma ? Event.from(eventPrisma) : null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 }
 
-const createNewEvent = (eventInfo: Event): Event => {  
-    const event = new Event({title: eventInfo.getTitle(), description: eventInfo.getDescription(), location: eventInfo.getLocation(), date: eventInfo.getDate(), time: eventInfo.getTime(), participants: eventInfo.getParticipants(), club: eventInfo.getClub()}) 
-    events.push(event)
-    return event
+const createNewEvent = async (eventInfo: Event): Promise<Event> => {  
+    try {
+        const eventPrisma = await database.event.create({
+            data: {
+                title: eventInfo.getTitle(),
+                description: eventInfo.getDescription(),
+                location: eventInfo.getLocation(),
+                date: eventInfo.getDate(),
+                time: eventInfo.getTime(),
+                participants: {
+                    create: eventInfo.getParticipants().map((participant) => ({
+                        user: {
+                            connect: { id: participant.getUser().getId() },
+                        },
+                    })),
+                },
+                club: {
+                connect: { id: eventInfo.getClub().getId() }, 
+                },
+            },
+            include: {
+                club: {
+                    include: {
+                        organiser: { include: { user: true } },
+                        members: {
+                            include: {
+                                user: true,
+                            },
+                        },
+                    },
+                },
+                participants: {
+                    include: { user: true },
+                },
+            },
+        });
+
+        return Event.from(eventPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 }
 
-const getEventsByClub = ({id}: {id: number}): Event[] => {
-    const eventsWithClub = events.filter(event => event.getClub().getId() === id);
-    return eventsWithClub
+// al geupdate met story 20 (moet nagekeken worden)
+const getEventsByClub = async ({id}: {id: number}): Promise<Event[] | null> => {
+    try {
+        const eventPrisma = await database.event.findMany({
+            where: { id: id },
+            include: {
+                club: {
+                    include: {
+                        organiser: {
+                            include: {
+                                user: true,
+                            },
+                        },
+                        members: {
+                            include: {
+                                user: true, 
+                            },
+                        },
+                    },
+                },
+                participants: {
+                    include: {
+                        user: true, 
+                    },
+                },
+            },
+        });
+
+        return eventPrisma.length > 0 ? eventPrisma.map(Event.from) : null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 }
 
 export default {
