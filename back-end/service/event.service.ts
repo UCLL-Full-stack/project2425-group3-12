@@ -1,13 +1,17 @@
+import { Club } from "../model/club";
 import { Event } from "../model/event"
 import clubDb from "../repository/club.db";
 import eventDb from "../repository/event.db"
 import { EventInput } from '../types';
 
-const getAllEvents = () : Event[] => { 
+
+// async al gemaakt (story 20)
+const getAllEvents = async () : Promise<Event[]> => { 
     return eventDb.getAllEvents() 
 }
 
-const getEventById = (id: number) : Event | null => { 
+// async al gemaakt (story 20)
+const getEventById = async (id: number) : Promise<Event | null> => { 
     const event = eventDb.getEventById({id})
     if (!event) {
         throw new Error(`Event with id ${id} does not exist`)
@@ -15,7 +19,8 @@ const getEventById = (id: number) : Event | null => {
     return event;
 }
 
-const createNewEvent = ({title, description, location, date, time, participants, club: clubInput}: EventInput): Event => {
+// async al gemaakt (story 20)
+const createNewEvent = async ({title, description, location, date, time, participants, club: clubInput}: EventInput): Promise<Event> => {
     if (!clubInput.id) throw new Error('Club id is required.');
     
     const club = clubDb.getClubById({id: clubInput.id});
@@ -32,7 +37,11 @@ const createNewEvent = ({title, description, location, date, time, participants,
     }
 
     // Check for already existing event for club
-    const existingEvents = eventDb.getEventsByClub({id: clubInput.id});
+    const existingEvents = await eventDb.getEventsByClub({id: clubInput.id});
+    if (existingEvents === null) {
+        throw new Error('Failed to fetch events for the club');
+    }
+
     const newEvent = new Event({title, description, location, date: dateObject, time, participants, club});
     
     const duplicateEvent = existingEvents.find(existingEvent => 

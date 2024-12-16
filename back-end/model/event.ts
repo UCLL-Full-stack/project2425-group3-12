@@ -1,12 +1,12 @@
-import {
-    Event as EventPrisma,
-    Club as ClubPrisma,
-    Member as MemberPrisma,
-    User as UserPrisma,
-    Organiser as OrganiserPrisma
-} from '@prisma/client';
 import { Club } from './club';
 import { Member } from './member';
+import {
+    Club as ClubPrisma,
+    Member as MemberPrisma,
+    Event as EventPrisma,
+    User as UserPrisma,
+    Organiser as OrganiserPrisma
+} from '@prisma/client'
 
 export class Event {
     private id?: number;
@@ -101,21 +101,21 @@ export class Event {
     }
 
     static from({
-                    id,
-                    title,
-                    description,
-                    location,
-                    date,
-                    time,
-                    participants,
-                    club
-                }: EventPrisma & {
-        participants: (MemberPrisma & { user: UserPrisma })[],
-        club: ClubPrisma & {
+        id,
+        title,
+        description,
+        location,
+        date,
+        time,
+        participants,
+        club
+    }: EventPrisma & {
+            participants: (MemberPrisma & { user: UserPrisma })[],
+            club: ClubPrisma & {
             organiser: OrganiserPrisma & { user: UserPrisma },
             members: (MemberPrisma & { user: UserPrisma })[]
         }
-    }) {
+        }) {
         return new Event({
             id,
             title,
