@@ -1,3 +1,10 @@
+import {
+    Event as EventPrisma,
+    Club as ClubPrisma,
+    Member as MemberPrisma,
+    User as UserPrisma,
+    Organiser as OrganiserPrisma
+} from '@prisma/client';
 import { Club } from './club';
 import { Member } from './member';
 
@@ -30,7 +37,6 @@ export class Event {
         if (!timeRegex.test(time)) {
             throw new Error('Time must be in 24-hour format (HH:mm)');
         }
-        
         return time;
     }
 
@@ -92,5 +98,33 @@ export class Event {
             this.participants === event.getParticipants() &&
             this.club === event.getClub()
         );
+    }
+
+    static from({
+                    id,
+                    title,
+                    description,
+                    location,
+                    date,
+                    time,
+                    participants,
+                    club
+                }: EventPrisma & {
+        participants: (MemberPrisma & { user: UserPrisma })[],
+        club: ClubPrisma & {
+            organiser: OrganiserPrisma & { user: UserPrisma },
+            members: (MemberPrisma & { user: UserPrisma })[]
+        }
+    }) {
+        return new Event({
+            id,
+            title,
+            description,
+            location,
+            date,
+            time,
+            participants: participants.map(participant => Member.from(participant)),
+            club: Club.from(club)
+        });
     }
 }

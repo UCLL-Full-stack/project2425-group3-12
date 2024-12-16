@@ -1,3 +1,10 @@
+import {
+    Club as ClubPrisma,
+    Member as MemberPrisma,
+    User as UserPrisma,
+    Organiser as OrganiserPrisma,
+    Event as EventPrisma
+} from '@prisma/client';
 import { Member } from "./member";
 import { Organiser } from "./organiser";
 import { Event } from "./event";
@@ -12,14 +19,15 @@ export class Club {
     private organiser: Organiser;
     private events: Event[];
 
-    constructor(club: {id?: number; name: string; description: string; type: ClubType; members: Member[]; organiser: Organiser; events: Event[];}){
+    constructor(club: {id?: number; name: string; description: string; type: ClubType; members: Member[]; organiser: Organiser; events?: Event[];}){
+        this.validate(club); // Perform validation before setting properties
         this.id = club.id;
         this.name = club.name;
         this.description = club.description;
         this.type = club.type;
         this.members = club.members;
         this.organiser = club.organiser;
-        this.events = club.events;
+        this.events = club.events || [];
     }
 
     getId(): number | undefined {
@@ -61,7 +69,7 @@ export class Club {
         type: ClubType;
         members: Member[];
         organiser: Organiser;
-        events: Event[];
+        events?: Event[];
     }) {
         if (!club.name?.trim()) {
             throw new Error('Name is required');
@@ -78,9 +86,6 @@ export class Club {
         if (!club.organiser) {
             throw new Error('Organiser is required');
         }
-        if (!club.events) {
-            throw new Error('Events are required');
-        }
     }
 
     equals(club: Club): boolean {
@@ -93,5 +98,29 @@ export class Club {
             this.organiser === club.getOrganiser() &&
             this.events === club.getEvents()
         );
+    }
+
+    static from({
+                    id,
+                    name,
+                    description,
+                    type,
+                    members,
+                    organiser,
+                    events = []
+                }: ClubPrisma & {
+        members: (MemberPrisma & { user: UserPrisma })[],
+        organiser: OrganiserPrisma & { user: UserPrisma },
+        events?: EventPrisma[]
+    }) {
+        return new Club({
+            id,
+            name,
+            description,
+            type: type as ClubType,
+            members: members.map(member => Member.from(member)),
+            organiser: Organiser.from(organiser),
+            events: []
+        });
     }
 }

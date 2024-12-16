@@ -1,255 +1,267 @@
-import { PrismaClient } from '@prisma/client'
+// Execute: npx ts-node util/seed.ts
 
-const prisma = new PrismaClient()
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
 
-async function main() {
-    // Clean up existing data (optional)
-    await prisma.memberClub.deleteMany({})
-    await prisma.event.deleteMany({})
-    await prisma.club.deleteMany({})
-    await prisma.member.deleteMany({})
-    await prisma.organiser.deleteMany({})
-    await prisma.user.deleteMany({})
+const prisma = new PrismaClient();
 
-    // Create Organiser Users
-    const organiserUsers = [
-        {
-            id: 1,
-            firstName: "John",
-            lastName: "Doe",
-            email: "john.doe@mail.com",
-            password: "john123", // In production, this should be hashed
-            role: "organiser",
-        },
-        {
-            id: 2,
-            firstName: "Jane",
-            lastName: "Doe",
-            email: "jane.doe@mail.com",
-            password: "jane123",
-            role: "organiser",
-        },
-        {
-            id: 3,
-            firstName: "Jack",
-            lastName: "Doe",
-            email: "jack.doe@mail.com",
-            password: "jack123",
-            role: "organiser",
-        },
-        {
-            id: 4,
-            firstName: "Jill",
-            lastName: "Doe",
-            email: "jill.doe@mail.com",
-            password: "jill123",
-            role: "organiser",
+const main = async () => {
+    // Clear existing data
+    await prisma.event.deleteMany();
+    await prisma.club.deleteMany();
+    await prisma.member.deleteMany();
+    await prisma.organiser.deleteMany();
+    await prisma.user.deleteMany();
+
+    // Create admin user
+    const admin = await prisma.user.create({
+        data: {
+            username: 'admin',
+            firstName: 'Malcolm',
+            lastName: 'McDowell',
+            email: 'admin@clubhub.com',
+            password: await bcrypt.hash('admin123', 12),
+            role: 'admin'
         }
-    ]
+    });
 
-    // Create Member Users
-    const memberUsers = [
-        {
-            id: 5,
-            firstName: "Alice",
-            lastName: "Doe",
-            email: "alice.doe@mail.com",
-            password: "alice123",
-            role: "member",
-        },
-        {
-            id: 6,
-            firstName: "Bob",
-            lastName: "Doe",
-            email: "bob.doe@mail.com",
-            password: "bob123",
-            role: "member",
-        },
-        {
-            id: 7,
-            firstName: "Charlie",
-            lastName: "Doe",
-            email: "charlie.doe@mail.com",
-            password: "charlie123",
-            role: "member",
-        },
-        {
-            id: 8,
-            firstName: "David",
-            lastName: "Doe",
-            email: "david.doe@mail.com",
-            password: "david123",
-            role: "member",
-        },
-        {
-            id: 9,
-            firstName: "Eve",
-            lastName: "Doe",
-            email: "eve.doe@mail.com",
-            password: "eve123",
-            role: "member",
-        },
-        {
-            id: 10,
-            firstName: "Frank",
-            lastName: "Doe",
-            email: "frank.doe@mail.com",
-            password: "frank123",
-            role: "member",
-        }
-    ]
-
-    console.log('Started seeding users...')
-
-    // Create all users
-    for (const userData of [...organiserUsers, ...memberUsers]) {
-        await prisma.user.create({
-            data: userData
-        })
-    }
-
-    console.log('Creating organisers...')
-
-    // Create Organisers
-    for (let i = 0; i < organiserUsers.length; i++) {
-        await prisma.organiser.create({
-            data: {
-                id: i + 1,
-                userId: organiserUsers[i].id
+    // Create organiser users
+    const organiserJohn = await prisma.organiser.create({
+        data: {
+            user: {
+                create: {
+                    username: 'john.doe',
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    email: 'john.doe@mail.com',
+                    password: await bcrypt.hash('password', 12),
+                    role: 'organiser'
+                }
             }
-        })
-    }
+        }
+    });
 
-    console.log('Creating members...')
-
-    // Create Members
-    for (let i = 0; i < memberUsers.length; i++) {
-        await prisma.member.create({
-            data: {
-                id: i + 1,
-                userId: memberUsers[i].id
+    const organiserJane = await prisma.organiser.create({
+        data: {
+            user: {
+                create: {
+                    username: 'jane.doe',
+                    firstName: 'Jane',
+                    lastName: 'Doe',
+                    email: 'jane.doe@mail.com',
+                    password: await bcrypt.hash('password', 12),
+                    role: 'organiser'
+                }
             }
-        })
-    }
-
-    console.log('Creating clubs...')
-
-    // Create Clubs
-    const clubs = [
-        {
-            name: "Grand Masters Chess Club",
-            description: "A club for chess enthusiasts of all levels",
-            type: "Chess",
-            organiserId: 1  // John Doe
-        },
-        {
-            name: "Rugby Warriors",
-            description: "Competitive rugby club for experienced players",
-            type: "Rugby",
-            organiserId: 1  // John Doe
-        },
-        {
-            name: "Dragon Slayers DnD",
-            description: "Weekly DnD campaigns and one-shots",
-            type: "DnD",
-            organiserId: 2  // Jane Doe
-        },
-        {
-            name: "Soccer Stars",
-            description: "Casual soccer club for all skill levels",
-            type: "Soccer",
-            organiserId: 3  // Jack Doe
-        },
-        {
-            name: "Tennis Elite",
-            description: "Professional tennis training and matches",
-            type: "Tennis",
-            organiserId: 4  // Jill Doe
         }
-    ]
+    });
 
-    for (const clubData of clubs) {
-        await prisma.club.create({
-            data: clubData
-        })
-    }
-
-    console.log('Creating member-club associations...')
-
-    // Create MemberClub associations
-    const memberClubAssociations = [
-        { memberId: 1, clubId: 1 },  // Alice - Chess
-        { memberId: 1, clubId: 3 },  // Alice - DnD
-        { memberId: 2, clubId: 2 },  // Bob - Rugby
-        { memberId: 2, clubId: 4 },  // Bob - Soccer
-        { memberId: 3, clubId: 3 },  // Charlie - DnD
-        { memberId: 4, clubId: 5 },  // David - Tennis
-        { memberId: 5, clubId: 1 },  // Eve - Chess
-        { memberId: 5, clubId: 4 },  // Eve - Soccer
-        { memberId: 6, clubId: 2 },  // Frank - Rugby
-        { memberId: 6, clubId: 5 },  // Frank - Tennis
-    ]
-
-    for (const association of memberClubAssociations) {
-        await prisma.memberClub.create({
-            data: association
-        })
-    }
-
-    console.log('Creating events...')
-
-    // Create Events
-    const events = [
-        {
-            title: "Weekly Chess Tournament",
-            description: "Weekly chess tournament for all club members",
-            location: "Main Hall",
-            date: new Date("2024-12-20"),
-            time: "18:00",
-            clubId: 1
-        },
-        {
-            title: "Rugby Practice",
-            description: "Regular team practice session",
-            location: "Sports Field",
-            date: new Date("2024-12-21"),
-            time: "16:00",
-            clubId: 2
-        },
-        {
-            title: "DnD Campaign Start",
-            description: "Starting our new campaign - The Lost Mines",
-            location: "Game Room",
-            date: new Date("2024-12-22"),
-            time: "19:00",
-            clubId: 3
-        },
-        {
-            title: "Soccer Match",
-            description: "Friendly match against local team",
-            location: "Soccer Field",
-            date: new Date("2024-12-23"),
-            time: "15:00",
-            clubId: 4
-        },
-        {
-            title: "Tennis Tournament",
-            description: "Monthly tennis tournament",
-            location: "Tennis Courts",
-            date: new Date("2024-12-24"),
-            time: "14:00",
-            clubId: 5
+    const organiserJack = await prisma.organiser.create({
+        data: {
+            user: {
+                create: {
+                    username: 'jack.doe',
+                    firstName: 'Jack',
+                    lastName: 'Doe',
+                    email: 'jack.doe@mail.com',
+                    password: await bcrypt.hash('password', 12),
+                    role: 'organiser'
+                }
+            }
         }
-    ]
+    });
 
-    for (const eventData of events) {
-        await prisma.event.create({
-            data: eventData
-        })
-    }
+    const organiserJill = await prisma.organiser.create({
+        data: {
+            user: {
+                create: {
+                    username: 'jill.doe',
+                    firstName: 'Jill',
+                    lastName: 'Doe',
+                    email: 'jill.doe@mail.com',
+                    password: await bcrypt.hash('password', 12),
+                    role: 'organiser'
+                }
+            }
+        }
+    });
 
-    console.log('Seeding finished.')
-}
+    // Create member users
+    const memberAlice = await prisma.member.create({
+        data: {
+            user: {
+                create: {
+                    username: 'alice.doe',
+                    firstName: 'Alice',
+                    lastName: 'Doe',
+                    email: 'alice.doe@mail.com',
+                    password: await bcrypt.hash('password', 12),
+                    role: 'member'
+                }
+            }
+        }
+    });
+
+    const memberBob = await prisma.member.create({
+        data: {
+            user: {
+                create: {
+                    username: 'bob.doe',
+                    firstName: 'Bob',
+                    lastName: 'Doe',
+                    email: 'bob.doe@mail.com',
+                    password: await bcrypt.hash('password', 12),
+                    role: 'member'
+                }
+            }
+        }
+    });
+
+    const memberCharlie = await prisma.member.create({
+        data: {
+            user: {
+                create: {
+                    username: 'charlie.doe',
+                    firstName: 'Charlie',
+                    lastName: 'Doe',
+                    email: 'charlie.doe@mail.com',
+                    password: await bcrypt.hash('password', 12),
+                    role: 'member'
+                }
+            }
+        }
+    });
+
+    const memberDavid = await prisma.member.create({
+        data: {
+            user: {
+                create: {
+                    username: 'david.doe',
+                    firstName: 'David',
+                    lastName: 'Doe',
+                    email: 'david.doe@mail.com',
+                    password: await bcrypt.hash('password', 12),
+                    role: 'member'
+                }
+            }
+        }
+    });
+
+    const memberEve = await prisma.member.create({
+        data: {
+            user: {
+                create: {
+                    username: 'eve.doe',
+                    firstName: 'Eve',
+                    lastName: 'Doe',
+                    email: 'eve.doe@mail.com',
+                    password: await bcrypt.hash('password', 12),
+                    role: 'member'
+                }
+            }
+        }
+    });
+
+    const memberFrank = await prisma.member.create({
+        data: {
+            user: {
+                create: {
+                    username: 'frank.doe',
+                    firstName: 'Frank',
+                    lastName: 'Doe',
+                    email: 'frank.doe@mail.com',
+                    password: await bcrypt.hash('password', 12),
+                    role: 'member'
+                }
+            }
+        }
+    });
+
+    // Create clubs
+    const chessClub = await prisma.club.create({
+        data: {
+            name: 'Checkmate Connoisseurs',
+            description: 'A chess club for strategy lovers, fostering intense matches and friendly competition among enthusiasts.',
+            type: 'Chess',
+            organiserId: organiserJohn.id,
+            members: {
+                connect: [{ id: memberAlice.id }, { id: memberBob.id }]
+            }
+        }
+    });
+
+    const rugbyClub = await prisma.club.create({
+        data: {
+            name: 'Hawaii Try-O',
+            description: 'An adventurous rugby club embracing teamwork, skill, and the spirit of aloha in every game.',
+            type: 'Rugby',
+            organiserId: organiserJane.id,
+            members: {
+                connect: [{ id: memberCharlie.id }, { id: memberDavid.id }]
+            }
+        }
+    });
+
+    const chessQueensClub = await prisma.club.create({
+        data: {
+            name: 'Queens of the Board',
+            description: 'A dynamic chess club celebrating female players, promoting strategy, skill, and camaraderie in the game.',
+            type: 'Chess',
+            organiserId: organiserJack.id,
+            members: {
+                connect: [{ id: memberEve.id }, { id: memberFrank.id }]
+            }
+        }
+    });
+
+    const dndClub = await prisma.club.create({
+        data: {
+            name: 'The Axebreakers',
+            description: 'A lively DnD group where imagination thrives, embarking on epic quests and creating unforgettable stories together.',
+            type: 'DnD',
+            organiserId: organiserJill.id,
+            members: {
+                connect: [
+                    { id: memberAlice.id },
+                    { id: memberBob.id },
+                    { id: memberCharlie.id },
+                    { id: memberDavid.id },
+                    { id: memberEve.id },
+                    { id: memberFrank.id }
+                ]
+            }
+        }
+    });
+
+    // Create events
+    await prisma.event.create({
+        data: {
+            title: 'Annual Chess Tournament',
+            description: 'A competitive chess tournament with prizes for the top three participants.',
+            location: 'Community Hall',
+            date: new Date('2024-12-05'),
+            time: '10:00',
+            clubId: chessClub.id,
+            participants: {
+                connect: [{ id: memberAlice.id }]
+            }
+        }
+    });
+
+    await prisma.event.create({
+        data: {
+            title: 'Annual Rugby Championship',
+            description: 'A competitive rugby match bringing together local teams for the championship title.',
+            location: 'City Stadium',
+            date: new Date('2024-11-07'),
+            time: '14:00',
+            clubId: rugbyClub.id,
+            participants: {
+                connect: [{ id: memberCharlie.id }, { id: memberDavid.id }]
+            }
+        }
+    });
+};
 
 (async () => {
     try {

@@ -26,6 +26,7 @@ type OrganiserInput = {
 
 type UserInput = {
     id?: number;
+    username: string;
     firstName: string;
     lastName: string;
     email: string;
