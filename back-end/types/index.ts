@@ -2,7 +2,7 @@ import { Club } from "../model/club";
 import { Member } from "../model/member";
 
 type Role = 'admin' | 'organiser' | 'member' | 'guest';
-type ClubType = 'Chess' | 'Rugby' | 'DnD' | 'Soccer' | 'Tennis' | 'Capoeira' | 'Kizomba' ;
+type ClubType = 'Chess' | 'Rugby' | 'DnD' | 'Soccer' | 'Tennis' ;
 
 type ClubInput = {
     id?: number;
@@ -26,6 +26,7 @@ type OrganiserInput = {
 
 type UserInput = {
     id?: number;
+    username: string;
     firstName: string;
     lastName: string;
     email: string;

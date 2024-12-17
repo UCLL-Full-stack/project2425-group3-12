@@ -5,6 +5,7 @@ import { User } from "../../model/user";
 
 //given
 const validUser = new User({
+    username: "john.doe",
     firstName: "John",
     lastName: "Doe",
     email: "john.doe@mail.com",
@@ -15,6 +16,7 @@ const validOrganiser = new Organiser({
     user: validUser
 });
 const jackDoe = new User({
+    username: "jack.doe",
     firstName: "Jack",
     lastName: "Doe",
     email: "jack.doe@mail.com",
@@ -22,6 +24,7 @@ const jackDoe = new User({
     role: "member"
 });
 const janeDoe = new User({
+    username: "jane.doe",
     firstName: "Jane",
     lastName: "Doe",
     email: "jane.doe@mail.com",
@@ -76,6 +79,7 @@ test('given valid club, when: adding member to club, then: member is added to cl
     });
     const newMember = new Member({
         user: new User({
+            username: "jill.doe",
             firstName: "Jill",
             lastName: "Doe",
             email: "jill.doe@mail.com",

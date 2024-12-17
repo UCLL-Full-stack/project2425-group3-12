@@ -1,11 +1,12 @@
 import { Club } from "../model/club"
 import clubDb from "../repository/club.db"
 
-const getAllClubs = () : Club[] => { return clubDb.getAllClubs() }
+const getAllClubs = async () : Promise<Club[]> => { return clubDb.getAllClubs() }
 
-const getClubById = (id: number) : Club => { 
-    const club = clubDb.getClubById({id})
-    if (!club) throw new Error(`Club with id ${id} does not exist`)
+const getClubById = async (id: number) : Promise<Club> => {
+    const club = await clubDb.getClubById({id});
+    // console.log(club?.getId())
+    if (!club) throw new Error(`Club with id ${id} does not exist`);
     return club
 }
 

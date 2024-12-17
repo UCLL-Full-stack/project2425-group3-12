@@ -1,3 +1,4 @@
+import { Member as MemberPrisma, User as UserPrisma } from '@prisma/client';
 import { User } from './user';
 
 export class Member {
@@ -22,5 +23,12 @@ export class Member {
             this.id === member.getId() &&
             this.user.equals(member.getUser())
         );
+    }
+
+    static from({ id, user }: MemberPrisma & { user: UserPrisma }) {
+        return new Member({
+            id,
+            user: User.from(user)
+        });
     }
 }

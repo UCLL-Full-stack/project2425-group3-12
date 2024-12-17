@@ -1,17 +1,19 @@
+import { User as UserPrisma } from '@prisma/client';
 import { Role } from '../types';
 
 export class User {
     private id?: number;
+    private username: string;
     private firstName: string;
     private lastName: string;
     private email: string;
     private password: string;
     private role: Role;
 
-    constructor(user: {id?: number; firstName: string; lastName: string; email: string; password: string, role: Role}){
+    constructor(user: {id?: number; username: string; firstName: string; lastName: string; email: string; password: string, role: Role}){
         this.validate(user); // Perform validation before setting properties
-        
         this.id = user.id;
+        this.username = user.username;
         this.firstName = user.firstName;
         this.lastName = user.lastName;
         this.email = user.email;
@@ -21,6 +23,10 @@ export class User {
 
     getId(): number | undefined {
         return this.id;
+    }
+
+    getUsername(): string {
+        return this.username;
     }
 
     getFirstName(): string {
@@ -69,6 +75,7 @@ export class User {
 
     equals(user: User): boolean {
         return (
+            this.username === user.getUsername() &&
             this.firstName === user.getFirstName() &&
             this.lastName === user.getLastName() &&
             this.email === user.getEmail() &&
@@ -77,4 +84,15 @@ export class User {
         );
     }
 
+    static from({ id, username, firstName, lastName, email, password, role }: UserPrisma) {
+        return new User({
+            id,
+            username,
+            firstName,
+            lastName,
+            email,
+            password,
+            role: role as Role,
+        });
+    }
 }
