@@ -9,6 +9,7 @@ test('given: a valid values, when: creating event, then: event is created with t
         id: 1,
         user: new User({
             id: 1,
+            username: "john.doe",
             firstName: "John",
             lastName: "Doe",
             email: "john.doe@mail.com",

@@ -19,6 +19,7 @@ const time = "10:00";
 // Organiser details
 const userInputOrganiser: UserInput = {
     id: 1,
+    username: "john.doe",
     firstName: "John",
     lastName: "Doe",
     email: "john.doe@mail.com",
@@ -35,6 +36,7 @@ const organiser = new Organiser({ id: organiserInput.id, user: userOrganiser });
 // Member details
 const userInput1: UserInput = {
     id: 2,
+    username: "alice.doe",
     firstName: "Alice",
     lastName: "Smith",
     email: "alice.smith@example.com",
@@ -43,6 +45,7 @@ const userInput1: UserInput = {
 };
 const userInput2: UserInput = {
     id: 3,
+    username: "bob.doe",
     firstName: "Bob",
     lastName: "Johnson",
     email: "bob.johnson@example.com",

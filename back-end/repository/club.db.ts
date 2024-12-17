@@ -46,7 +46,8 @@ const getClubById = async ({ id }: { id: number }): Promise<Club | null> => {
         });
 
         return clubPrisma ? Club.from(clubPrisma) : null;
-    } catch (error) {
+    } 
+    catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
