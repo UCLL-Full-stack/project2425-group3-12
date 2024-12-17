@@ -11,6 +11,7 @@ const organiserJohnDoe = new Organiser({
     id: 1,
     user: new User({
         id: 1,
+        username: "john.doe",
         firstName: "John",
         lastName: "Doe",
         email: "john.doe@mail.com",
@@ -22,6 +23,7 @@ const organiserJaneDoe = new Organiser({
     id: 2,
     user: new User({
         id: 2,
+        username: "jane.doe",
         firstName: "Jane",
         lastName: "Doe",
         email: "jane.doe@mail.com",
@@ -35,6 +37,7 @@ const memberAlice = new Member({
     id: 1,
     user: new User({
         id: 5,
+        username: "alice.doe",
         firstName: "Alice",
         lastName: "Doe",
         email: "alice.doe@mail.com",
@@ -46,6 +49,7 @@ const memberBob = new Member({
     id: 2,
     user: new User({
         id: 6,
+        username: "bob.doe",
         firstName: "Bob",
         lastName: "Doe",
         email: "bob.doe@mail.com",
@@ -57,6 +61,7 @@ const memberCharlie = new Member({
     id: 3,
     user: new User({
         id: 7,
+        username: "charlie.doe",
         firstName: "Charlie",
         lastName: "Doe",
         email: "charlie.doe@mail.com",
@@ -68,6 +73,7 @@ const memberDavid = new Member({
     id: 4,
     user: new User({
         id: 8,
+        username: "david.doe",
         firstName: "David",
         lastName: "Doe",
         email: "david.doe@mail.com",

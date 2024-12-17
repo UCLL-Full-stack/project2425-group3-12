@@ -3,6 +3,7 @@ import { User } from "../../model/user";
 
 // given
 const validUser = new User({
+    username: "john.doe",
     firstName: "John",
     lastName: "Doe",
     email: "john.doe@mail.com",
