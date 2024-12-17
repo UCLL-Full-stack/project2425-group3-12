@@ -23,7 +23,7 @@ const getEventById = async (id: number) : Promise<Event | null> => {
 const createNewEvent = async ({title, description, location, date, time, participants, club: clubInput}: EventInput): Promise<Event> => {
     if (!clubInput.id) throw new Error('Club id is required.');
     
-    const club = clubDb.getClubById({id: clubInput.id});
+    const club = await clubDb.getClubById({id: clubInput.id});
     if(!club) throw new Error(`Club not found with the given ID`);
     
     if(!date) throw new Error(`Date is required`);
