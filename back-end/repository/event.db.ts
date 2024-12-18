@@ -153,9 +153,51 @@ const getEventsByClub = async ({id}: {id: number}): Promise<Event[] | null> => {
     }
 }
 
+const updateEventParticipants = async (event: Event): Promise<Event> => {
+    try {
+        const eventPrisma = await database.event.update({
+            where: { id: event.getId() },
+            data: {
+                participants: {
+                    connect: event.getParticipants().map(participant => ({
+                        id: participant.getId()
+                    }))
+                }
+            },
+            include: {
+                club: {
+                    include: {
+                        organiser: {
+                            include: {
+                                user: true,
+                            },
+                        },
+                        members: {
+                            include: {
+                                user: true,
+                            },
+                        },
+                    },
+                },
+                participants: {
+                    include: {
+                        user: true,
+                    },
+                },
+            },
+        });
+
+        return Event.from(eventPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+}
+
 export default {
     getAllEvents,
     getEventById,
     createNewEvent,
-    getEventsByClub
+    getEventsByClub,
+    updateEventParticipants
 };

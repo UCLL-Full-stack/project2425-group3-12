@@ -56,6 +56,11 @@ type JoinClubInput = {
     member: MemberInput;
 }
 
+type EventSignupInput = {
+    event: EventInput;
+    member: MemberInput;
+};
+
 type AuthenticationResponse = {
     token: string;
     username: string;
@@ -72,5 +77,6 @@ export {
     UserInput,
     EventInput,
     JoinClubInput,
+    EventSignupInput,
     AuthenticationResponse,
 };

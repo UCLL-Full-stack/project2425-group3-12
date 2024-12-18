@@ -1,8 +1,9 @@
-import { Club } from "../model/club";
 import { Event } from "../model/event"
 import clubDb from "../repository/club.db";
 import eventDb from "../repository/event.db"
-import { EventInput } from '../types';
+import {EventInput, MemberInput, Role} from '../types';
+import { GameClubError, ValidationError, AuthenticationError, DatabaseError } from "../util/errors";
+import memberDb from "../repository/member.db";
 
 
 // async al gemaakt (story 20)
@@ -55,8 +56,45 @@ const createNewEvent = async ({title, description, location, date, time, partici
     return eventDb.createNewEvent(newEvent);
 }
 
-export default { 
-    getAllEvents, 
+const addMemberToEvent = async (
+    signupInput: {
+        event: EventInput;
+        member: MemberInput;
+    },
+    authInput: {
+        role: Role;
+    }
+): Promise<Event | null> => {
+    if (!signupInput.event.id) throw new ValidationError('Event id is required.');
+    if (!signupInput.member.id) throw new ValidationError('Member id is required.');
+    if (authInput.role !== 'member') throw new GameClubError('Only members can signup for events.');
+
+    const event = await eventDb.getEventById({ id: signupInput.event.id });
+    if (!event) throw new GameClubError('Event not found');
+
+    const member = await memberDb.getMemberById({ id: signupInput.member.id });
+    if (!member) throw new GameClubError('Member not found');
+
+    // Check if member is already signed up
+    const isAlreadySignedUp = event.getParticipants().some(
+        participant => participant.getId() === member.getId()
+    );
+    if (isAlreadySignedUp) {
+        throw new GameClubError('Member is already signed up for this event');
+    }
+
+    event.addParticipantToEvent(member);
+
+    try {
+        return await eventDb.updateEventParticipants(event);
+    } catch (error) {
+        throw new DatabaseError('Failed to update event participants');
+    }
+}
+
+export default {
+    getAllEvents,
     getEventById,
-    createNewEvent
+    createNewEvent,
+    addMemberToEvent
 }

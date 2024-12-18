@@ -66,7 +66,7 @@
  */
 import express, { NextFunction, Request, Response } from 'express';
 import eventService from '../service/event.service';
-import { EventInput } from '../types';
+import {EventInput, EventSignupInput, Role} from '../types';
 
 const eventRouter = express.Router();
 
@@ -157,6 +157,73 @@ eventRouter.post('/', (req: Request, res: Response, next: NextFunction) => {
     try {
         const event = <EventInput>req.body;
         const result = eventService.createNewEvent(event);
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /events/signup:
+ *   post:
+ *     tags: [Event]
+ *     summary: Add a member to an event
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - event
+ *               - member
+ *             properties:
+ *               event:
+ *                 type: object
+ *                 required:
+ *                   - id
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     description: The ID of the event to join
+ *               member:
+ *                 type: object
+ *                 required:
+ *                   - id
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     description: The ID of the member joining the event
+ *     responses:
+ *       200:
+ *         description: The updated event with the new participant
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Event'
+ *       400:
+ *         description: Validation error (e.g., already signed up, invalid role)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: domain error
+ *                 message:
+ *                   type: string
+ *                   example: Member is already signed up for this event
+ */
+eventRouter.post('/signup', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const signupInput = <EventSignupInput>req.body;
+        const request = req as Request & { auth: { username: string; role: Role } };
+        const { role } = request.auth;
+        const result = await eventService.addMemberToEvent(signupInput, { role });
         res.status(200).json(result);
     } catch (error) {
         next(error);
