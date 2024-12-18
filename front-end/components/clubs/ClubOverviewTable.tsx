@@ -1,21 +1,25 @@
 import React from "react";
 import { Club } from "@types";
+import { useTranslation } from "next-i18next";
 
 type Props = {
   clubs: Array<Club>;
 };
 
 const ClubOverviewtable: React.FC<Props> = ({ clubs }: Props) => {
+
+  const { t } = useTranslation();
+
   return (
     <>
       {clubs && (
         <table className="table table-hover">
           <thead>
             <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Description</th>
-              <th scope="col">Type</th>
-              <th scope="col">organiser</th>
+              <th scope="col">{t('clubs.table.overview.name')}</th>
+              <th scope="col">{t('clubs.table.overview.description')}</th>
+              <th scope="col">{t('clubs.table.overview.type')}</th>
+              <th scope="col">{t('clubs.table.overview.organiser')}</th>
             </tr>
           </thead>
           <tbody>

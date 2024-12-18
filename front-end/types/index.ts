@@ -2,12 +2,13 @@ type Role = 'admin' | 'organiser' | 'member' | 'guest';
 type ClubType = 'Chess' | 'Rugby' | 'DnD' | 'Soccer' | 'Tennis' | 'Capoeira' | 'Kizomba' ;
 
 export type User = {
-    id: number;
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    role: Role;
+    id?: number;
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    password?: string;
+    role?: Role;
+    // userName?: string;
 }
 
 export type Member = {
@@ -40,3 +41,9 @@ export type Event = {
     participants: Member[];
     club: Club;
 }
+
+
+export type StatusMessage = {
+    message: string;
+    type: "error" | "success";
+};

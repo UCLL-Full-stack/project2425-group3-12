@@ -1,13 +1,17 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Header from '@components/header';
+import { useTranslation } from "next-i18next";
 import styles from '@styles/home.module.css';
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Home: React.FC = () => {
+  const {t} = useTranslation();
+
   return (
     <>
       <Head>
-        <title>Game Clubs</title>
+        <title>{t('app.title')}</title>
         <meta name="description" content="Game Club app" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -22,33 +26,36 @@ const Home: React.FC = () => {
             width={100}
             height={100}
           />
-          <h1>Welcome!</h1>
+          <h1>{t('home.title')}</h1>
         </span>
 
         <div className={styles.description}>
           <p>
-          Calling all game enthusiasts! Dive into a world of endless
-          fun and connection with our Game Club Management app.
+          {t('home.description1')}
           </p>
           <p>
-          Whether you're a board game buff, a video game virtuoso,
-          or a role-playing legend, this app is your gateway to an
-          exciting community of like-minded players.
+          {t('home.description2')}
           </p>
           <p>
-          Discover and join clubs that match your interests, create
-          your own gaming events, and connect with fellow gamers
-          who share your passion.
+          {t('home.description3')}
           </p>
           <p>
-          From classic chess to cutting-edge VR experiences, weekly
-          D&D campaigns to city-wide laser tag showdowns, the
-          possibilities are as limitless as your imagination.
+          {t('home.description4')}
           </p>
         </div>
       </main>
     </>
   );
+};
+
+export const getServerSideProps = async (context: {locale: any}) => {
+  const { locale } = context;
+
+  return {
+      props: {
+          ...(await serverSideTranslations(locale ?? "en", ["common"])),
+      }
+  };
 };
 
 export default Home;

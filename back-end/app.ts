@@ -4,19 +4,31 @@ import cors from 'cors';
 import * as bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import { expressjwt } from 'express-jwt';
 import { clubRouter } from './controller/club.routes';
 import { eventRouter } from './controller/event.routes';
+import { userRouter } from './controller/user.routes';
 
 const app = express();
 dotenv.config();
 const port = process.env.APP_PORT || 3000;
 
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:8080' }));
 app.use(bodyParser.json());
+
+app.use(
+    expressjwt({
+        secret: process.env.JWT_SECRET || 'default_secret',
+        algorithms: ['HS256'],
+    }).unless({
+        path: ['/api-docs',/^\/api-docs\/.*/,'/users/login', '/users/signup', 'status'],
+    })
+);
 
 // Define the route for the clubs
 app.use('/clubs', clubRouter);   
-app.use('/events', eventRouter) 
+app.use('/events', eventRouter)
+app.use('/users', userRouter);
 
 // Define a route for the back-end status
 app.get('/status', (req, res) => {
@@ -45,8 +57,14 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     if (err.name === 'UnauthorizedError') {
         res.status(401).json({ status: 'unauthorized', message: err.message });
-    } else if (err.name === 'CoursesError') {
+    } else if (err.name === 'GameClubError') {
         res.status(400).json({ status: 'domain error', message: err.message });
+    } else if (err.name === 'ValidationError') {
+        res.status(400).json({ status: 'validation error', message: err.message });
+    } else if (err.name === 'DatabaseError') {
+        res.status(400).json({ status: 'database error', message: err.message });
+    } else if (err.name === 'AuthenticationError') {
+        res.status(400).json({ status: 'authentication error', message: err.message });
     } else {
         res.status(400).json({ status: 'application error', message: err.message });
     }

@@ -2,7 +2,13 @@ import { Club } from "../model/club";
 import { Member } from "../model/member";
 
 type Role = 'admin' | 'organiser' | 'member' | 'guest';
-type ClubType = 'Chess' | 'Rugby' | 'DnD' | 'Soccer' | 'Tennis' | 'Capoeira' | 'Kizomba' ;
+type ClubType = 'Chess' | 'Rugby' | 'DnD' | 'Soccer' | 'Tennis' ;
+
+export const VALID_ROLES: Role[] = ['admin', 'organiser', 'member', 'guest'];
+
+export function isValidRole(role: string): role is Role {
+    return VALID_ROLES.includes(role as Role);
+}
 
 type ClubInput = {
     id?: number;
@@ -26,6 +32,7 @@ type OrganiserInput = {
 
 type UserInput = {
     id?: number;
+    username: string;
     firstName: string;
     lastName: string;
     email: string;
@@ -44,6 +51,18 @@ type EventInput = {
     club: ClubInput;
 }
 
+type JoinClubInput = {
+    club: ClubInput;
+    member: MemberInput;
+}
+
+type AuthenticationResponse = {
+    token: string;
+    username: string;
+    fullname: string;
+    role: string;
+};
+
 export {
     Role,
     ClubType,
@@ -51,5 +70,7 @@ export {
     MemberInput,
     OrganiserInput,
     UserInput,
-    EventInput
+    EventInput,
+    JoinClubInput,
+    AuthenticationResponse,
 };

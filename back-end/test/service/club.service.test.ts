@@ -9,6 +9,7 @@ const organiserJohnDoe = new Organiser({
     id: 1,
     user: new User({
         id: 1,
+        username: "john.doe",
         firstName: "John",
         lastName: "Doe",
         email: "john.doe@mail.com",
@@ -20,6 +21,7 @@ const memberAlice = new Member({
     id: 1,
     user: new User({
         id: 5,
+        username: "alice.doe",
         firstName: "Alice",
         lastName: "Doe",
         email: "alice.doe@mail.com",
@@ -31,6 +33,7 @@ const memberBob = new Member({
     id: 2,
     user: new User({
         id: 6,
+        username: "bob.doe",
         firstName: "Bob",
         lastName: "Doe",
         email: "bob.doe@mail.com",

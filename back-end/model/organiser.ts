@@ -1,3 +1,4 @@
+import { Organiser as OrganiserPrisma, User as UserPrisma } from '@prisma/client';
 import { User } from "./user";
 
 export class Organiser {
@@ -22,5 +23,12 @@ export class Organiser {
             this.id === organiser.getId() &&
             this.user.equals(organiser.getUser())
         );
+    }
+
+    static from({ id, user }: OrganiserPrisma & { user: UserPrisma }) {
+        return new Organiser({
+            id,
+            user: User.from(user)
+        });
     }
 }

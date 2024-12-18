@@ -18,7 +18,10 @@
     "react-dom": "^18.3.1",
     "react-i18next": "^13.4.1",
     "swr": "^2.2.0",
-    "use-interval": "^1.4.0"
+    "use-interval": "^1.4.0",
+    "i18next": "^23.7.6",
+    "next-i18next": "^15.0.0",
+    "react-i18next": "^13.4.1"
   },
   "devDependencies": {
     "@types/node": "18.15.0",

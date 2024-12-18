@@ -2,6 +2,7 @@ import { User } from "../../model/user";
 
 test('given: valid values, when: creating user, then: user is created', () => {
     //given
+    const username = "john.doe";
     const firstName = "John";
     const lastName = "Doe";
     const email = "john.doe@mail.com";
@@ -10,6 +11,7 @@ test('given: valid values, when: creating user, then: user is created', () => {
 
     //when
     const user = new User({
+        username,
         firstName,
         lastName,
         email,
@@ -28,6 +30,7 @@ test('given: valid values, when: creating user, then: user is created', () => {
 
 test('given: empty string for first name, when: creating user, then: error is thrown', () => {
     //given
+    const username = "john.doe";
     const firstName = "";
     const lastName = "Doe";
     const email = "john.doe@mail.com";
@@ -36,6 +39,7 @@ test('given: empty string for first name, when: creating user, then: error is th
 
     //when
     const createUser = () => new User({
+        username,
         firstName,
         lastName,
         email,
@@ -49,6 +53,7 @@ test('given: empty string for first name, when: creating user, then: error is th
 
 test('given: null for first name, when: creating user, then: error is thrown', () => {
     //given
+    const username = "john.doe";
     const firstName = null as unknown as string; //force null to be a string by using TypeScript's type assertions to bypass the type checks
     const lastName = "Doe";
     const email = "john.doe@mail.com";
@@ -57,6 +62,7 @@ test('given: null for first name, when: creating user, then: error is thrown', (
 
     //when
     const createUser = () => new User({
+        username,
         firstName,
         lastName,
         email,
@@ -70,6 +76,7 @@ test('given: null for first name, when: creating user, then: error is thrown', (
 
 test('given: undefined for first name, when: creating user, then: error is thrown', () => {
     //given
+    const username = "john.doe";
     const firstName = undefined as unknown as string; // force undefined to be a string by using TypeScript's type assertions to bypass the type checks
     const lastName = "Doe";
     const email = "john.doe@mail.com";
@@ -78,6 +85,7 @@ test('given: undefined for first name, when: creating user, then: error is throw
 
     //when
     const createUser = () => new User({
+        username,
         firstName,
         lastName,
         email,
@@ -91,6 +99,7 @@ test('given: undefined for first name, when: creating user, then: error is throw
 
 test('given: empty string for last name, when: creating user, then: error is thrown', () => {
     //given
+    const username = "john.doe";
     const firstName = "John";
     const lastName = "";
     const email = "john.doe@mail.com";
@@ -99,6 +108,7 @@ test('given: empty string for last name, when: creating user, then: error is thr
 
     //when
     const createUser = () => new User({
+        username,
         firstName,
         lastName,
         email,
@@ -112,6 +122,7 @@ test('given: empty string for last name, when: creating user, then: error is thr
 
 test('given: null for last name, when: creating user, then: error is thrown', () => {
     //given
+    const username = "john.doe";
     const firstName = "John";
     const lastName = null as unknown as string; //force null to be a string by using TypeScript's type assertions to bypass the type checks
     const email = "john.doe@mail.com";
@@ -120,6 +131,7 @@ test('given: null for last name, when: creating user, then: error is thrown', ()
 
     //when
     const createUser = () => new User({
+        username,
         firstName,
         lastName,
         email,
@@ -133,6 +145,7 @@ test('given: null for last name, when: creating user, then: error is thrown', ()
 
 test('given: undefined for last name, when: creating user, then: error is thrown', () => {
     //given
+    const username = "john.doe";
     const firstName = "John";
     const lastName = undefined as unknown as string; // force undefined to be a string by using TypeScript's type assertions to bypass the type checks
     const email = "john.doe@mail.com";
@@ -141,6 +154,7 @@ test('given: undefined for last name, when: creating user, then: error is thrown
 
     //when
     const createUser = () => new User({
+        username,
         firstName,
         lastName,
         email,

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Event } from '@types';
+import { useTranslation } from "next-i18next";
 
 type Props = {
     events: Array<Event>;
@@ -8,18 +9,21 @@ type Props = {
 
 
 const EventsOverviewtable: React.FC<Props> = ({events, selectEvent}: Props) => {
+    
+    const { t } = useTranslation();
+
     return (
         <>
             {events &&  (
                 <table className='table table-hover'>
                     <thead>
                         <tr>
-                            <th scope="col">Title</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Location</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Time</th>
-                            <th scope="col">Club</th>
+                            <th scope="col">{t('events.table.overview.title')}</th>
+                            <th scope="col">{t('events.table.overview.description')}</th>
+                            <th scope="col">{t('events.table.overview.location')}</th>
+                            <th scope="col">{t('events.table.overview.date')}</th>
+                            <th scope="col">{t('events.table.overview.time')}</th>
+                            <th scope="col">{t('events.table.overview.club')}</th>
                         </tr>
                     </thead>
                     <tbody>
