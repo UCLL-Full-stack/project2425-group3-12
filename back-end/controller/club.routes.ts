@@ -72,6 +72,7 @@ const clubRouter = express.Router();
  * @swagger
  * /clubs:
  *  get:
+ *      tags: [Club]
  *      summary: Retrieve a list of all clubs
  *      responses:
  *          200:
@@ -96,6 +97,7 @@ clubRouter.get("/", async (req: Request, res: Response, next: NextFunction) => {
  * @swagger
  * /clubs/{id}:
  *  get:
+ *      tags: [Club]
  *      summary: Retrieve a club by its id
  *      parameters:
  *          - in: path

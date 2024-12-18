@@ -50,12 +50,16 @@ export class User {
     }
 
     validate(user: {
+        username: string;
         firstName: string;
         lastName: string;
         email: string;
         password: string;
         role: Role;
     }) {
+        if (!user.username?.trim()) {
+            throw new Error('Username is required');
+        }
         if (!user.firstName?.trim()) {
             throw new Error('First name is required');
         }
