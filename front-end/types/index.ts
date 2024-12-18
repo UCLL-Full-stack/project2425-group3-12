@@ -8,6 +8,7 @@ export type User = {
     email?: string;
     password?: string;
     role?: Role;
+    // userName?: string;
 }
 
 export type Member = {

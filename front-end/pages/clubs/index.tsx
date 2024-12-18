@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import { Club } from '@types';
 import ClubService from '@services/ClubService';
 import ClubOverviewTable from '@components/clubs/ClubOverviewTable';
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Clubs: React.FC = () => {
 
@@ -21,16 +23,18 @@ const Clubs: React.FC = () => {
         getClubs();
     }, [] )
 
+    const {t} = useTranslation();
+
     return (
         <>
             <Head>
-                <title>Game Clubs</title>
+                <title>{t('clubs.title')}</title>
             </Head>
             <Header/>
             <main className="d-flex flex-column justify-content-center align-items-center">
-                <h1>Game Clubs</h1>
+                <h1>{t('clubs.title')}</h1>
                 <section>
-                    <h2>Game clubs overview</h2>
+                    <h2>{t('clubs.table.headtitle')}</h2>
                     {clubs && (
                         <ClubOverviewTable
                             clubs = {clubs}
@@ -42,4 +46,15 @@ const Clubs: React.FC = () => {
         </>
      );
 };
+
+export const getServerSideProps = async (context: {locale: any}) => {
+    const { locale } = context;
+
+    return {
+        props: {
+            ...(await serverSideTranslations(locale ?? "en", ["common"])),
+        }
+    }
+}
+
 export default Clubs;
