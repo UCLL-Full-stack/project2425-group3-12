@@ -74,6 +74,9 @@ const eventRouter = express.Router();
  * @swagger
  * /events:
  *  get:
+ *      tags: [Event]
+ *      security:
+ *        - bearerAuth: []
  *      summary: Retrieve a list of all events
  *      responses:
  *          200:
@@ -98,7 +101,10 @@ eventRouter.get('/', async (req: Request, res: Response, next: NextFunction) => 
  * @swagger
  * /events/{id}:
  *  get:
+ *      tags: [Event]
  *      summary: Retrieve an event by its id
+ *      security:
+ *          - bearerAuth: []
  *      parameters:
  *          - in: path
  *            name: id
@@ -129,6 +135,7 @@ eventRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) 
  * @swagger
  * /events:
  *  post:
+ *      tags: [Event]
  *      summary: Create a new event
  *      security:
  *          - bearerAuth: []

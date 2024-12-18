@@ -1,5 +1,6 @@
 import { User as UserPrisma } from '@prisma/client';
-import { Role } from '../types';
+import { Role, isValidRole, VALID_ROLES } from '../types';
+import { ValidationError } from "../util/errors";
 
 export class User {
     private id?: number;
@@ -50,12 +51,16 @@ export class User {
     }
 
     validate(user: {
+        username: string;
         firstName: string;
         lastName: string;
         email: string;
         password: string;
         role: Role;
     }) {
+        if (!user.username?.trim()) {
+            throw new Error('Username is required');
+        }
         if (!user.firstName?.trim()) {
             throw new Error('First name is required');
         }
@@ -70,6 +75,9 @@ export class User {
         }
         if (!user.role) {
             throw new Error('Role is required');
+        }
+        if (!isValidRole(user.role)) {
+            throw new ValidationError(`Invalid role. Must be one of: ${VALID_ROLES.join(', ')}`);
         }
     }
 

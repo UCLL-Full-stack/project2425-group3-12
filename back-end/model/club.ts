@@ -88,6 +88,12 @@ export class Club {
         }
     }
 
+    hasMember(memberId: number): boolean {
+        return this.members.some(existingMember =>
+            existingMember.getId() === memberId
+        );
+    }
+
     equals(club: Club): boolean {
         return (
             this.id === club.getId() &&
