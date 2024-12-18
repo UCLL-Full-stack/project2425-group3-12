@@ -5,15 +5,23 @@ import { useTranslation } from "next-i18next";
 import { User } from "@types";
 
 const Header: React.FC = () => {
-  const [loggedInUser, setLoggedInUser] = useState<String | null>(null);
+  // const [loggedInUser, setLoggedInUser] = useState<String | null>(null);
   // const [loggedInUser, setLoggedInUser] = useState<User>(null);
+  const [loggedInUser, setLoggedInUser] = useState<User>(null);
+
+  // useEffect(() => {
+  //   setLoggedInUser(sessionStorage.getItem("loggedInUser"));
+  // }, []);
 
   useEffect(() => {
-    setLoggedInUser(sessionStorage.getItem("loggedInUser"));
+    setLoggedInUser(JSON.parse(localStorage.getItem("loggedInUser")));
   }, []);
 
   // useEffect(() => {
-  //   setLoggedInUser(JSON.parse(localStorage.getItem("loggedInUser")));
+  //   const storedUser = localStorage.getItem("loggedInUser");
+  //   if (storedUser) {
+  //     setLoggedInUser(JSON.parse(storedUser) as User);
+  //   }
   // }, []);
 
   const handleClick = () => {
@@ -67,7 +75,7 @@ const Header: React.FC = () => {
         )}
         {loggedInUser && (
           <div className="text-white ms-5 mt-2 md:mt-0 pt-1 md:pt-0 grow">
-            {t('header.welcome')}, {loggedInUser}!
+            {t('header.welcome')}, {loggedInUser?.firstName}!
           </div>
         )}
         <Language/>
