@@ -1,3 +1,4 @@
+/* Base Reset */
 html,
 body {
     padding: 0;
@@ -21,28 +22,196 @@ img {
     height: auto;
 }
 
+/* Typography */
 h1 {
-    color: rgb(46, 50, 117);
+    text-align: center;
+    color: rgb(46, 50, 117); /* Equivalent to text-indigo-800 */
+    font-size: 1.875rem; /* Equivalent to text-3xl (30px) */
     margin-bottom: 2rem !important;
 }
 
-h2 {
-    font-size: 1.25rem !important;
-}
-
-h1,
 h2,
-p,
-ul {
-    margin: 0;
+h3 {
+    padding-left: 1.5rem; /* px-6 */
+    padding-right: 1.5rem; /* px-6 */
+    color: rgb(46, 50, 117); /* text-indigo-800 */
+    font-size: 1.25rem; /* text-xl (20px) */
+    padding-top: 1.5rem; /* pt-6 */
 }
 
-ul {
-    padding: 0;
-    list-style: none;
+/* Tables */
+table {
+    font-size: 0.875rem; /* Equivalent to text-sm */
+    border-collapse: collapse;
+    width: 100%;
 }
 
+thead tr {
+    padding: 0.75rem 1.5rem; /* px-6 py-3 */
+    text-align: left;
+}
+
+tbody tr {
+    border-bottom: 1px solid #e2e8f0; /* Light gray border equivalent to border-b */
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f7fafc; /* Equivalent to even:bg-gray-100 */
+}
+
+tbody tr:hover {
+    background-color: #edf2f7; /* Equivalent to hover:bg-gray-200 */
+}
+
+td,
+th {
+    padding: 0.75rem 1.5rem; /* px-6 py-3 */
+}
+
+/* Custom Date Picker Width */
+.customDatePickerWidth,
+.customDatePickerWidth > div.react-datepicker-wrapper,
+.customDatePickerWidth > div > div.react-datepicker__input-container,
+.customDatePickerWidth > div > div.react-datepicker__input-container input {
+    width: 100%; /* Equivalent to w-full */
+}
+
+/* Utility Styles */
 button {
     padding: 0.5rem 1rem;
     font-weight: bold;
+    color: white;
+    background-color: #2563eb; /* bg-blue-700 */
+    border: none;
+    border-radius: 0.375rem; /* rounded-lg */
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: #1d4ed8; /* hover:bg-blue-800 */
+}
+
+/* Custom Colors */
+.text-red-800 {
+    color: #991b1b; /* Equivalent to Tailwind red-800 */
+}
+
+.text-green-800 {
+    color: #166534; /* Equivalent to Tailwind green-800 */
+}
+
+.text-indigo-800 {
+    color: #2e3275; /* Custom indigo equivalent */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Center the login form */
+.center-container {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    height: 100vh; /* Full viewport height */
+    background-color: #f9fafb; /* Light background for better contrast */
+    margin: 0; /* Remove any default margin */
+}
+
+.login-form-wrapper {
+    padding: 2rem; /* Add spacing around the form */
+    background-color: white; /* White background for the form */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    border-radius: 0.5rem; /* Rounded corners */
+    max-width: 400px; /* Limit form width */
+    width: 100%; /* Allow responsive scaling */
+    box-sizing: border-box;
+}
+
+.login-title {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 1.5rem;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    --tw-text-opacity: 1;
+    color: rgb(55 48 163 / var(--tw-text-opacity));
+    margin: 0;
+    font-weight: inherit;
+
+
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+/* Custom styles for the button */
+.login-button {
+    --tw-text-opacity: 1;
+    --tw-bg-opacity: 1;
+
+    color: rgb(255 255 255 / var(--tw-text-opacity));
+    background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+    font-weight: 500; /* Medium */
+    font-size: 0.875rem; /* Small text */
+    line-height: 1.25rem;
+    text-align: center;
+    padding-top: 0.625rem; /* py-2.5 */
+    padding-bottom: 0.625rem;
+    padding-left: 1.25rem; /* px-5 */
+    padding-right: 1.25rem;
+    border-radius: 0.5rem; /* Rounded corners */
+}
+
+.form-label {
+    font-weight: 500; /* Medium */
+    font-size: 0.875rem; /* Small text */
+    line-height: 1.25rem;
+    display: block; /* Block-level element */
+    margin-bottom: 0.5rem; /* Spacing below the label */
+}
+
+.input-field {
+    font-size: 0.875rem; /* Small text */
+    line-height: 1.25rem;
+    padding: 0.625rem; /* Padding for height */
+    border-color: rgb(209 213 219 / var(--tw-border-opacity)); /* Gray border */
+    border-width: 1px; /* Standard border width */
+    border-style: solid;
+    border-radius: 0.5rem; /* Rounded corners */
+    width: 100%; /* Full width */
+    display: block; /* Block-level element */
+}
+
+
+
+
+
+/* header css */
+.header-button {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255 / var(--tw-text-opacity)); /* White text */
+    font-size: 1.25rem; /* Text size: xl */
+    line-height: 1.75rem; /* Line height */
+    padding-left: 1rem; /* px-4 */
+    padding-right: 1rem; /* px-4 */
+    border-radius: 0.5rem; /* Rounded corners */
+    text-decoration: none; /* Remove underlines */
+}
+
+.header-button:hover {
+    background-color: #111827; /* Darken the background on hover */
+    transform: scale(1.05); /* Slightly scale the button on hover */
+    color: rgb(255 255 255 / var(--tw-text-opacity)); /* Keep text color the same */
 }
