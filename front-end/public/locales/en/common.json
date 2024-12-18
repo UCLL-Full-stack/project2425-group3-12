@@ -1,0 +1,80 @@
+{
+    "app.title": "Game Clubs",
+    "general.error": "An error has occurred. Please try again later.",
+    "login": {
+      "title": "Login",
+      "button": "Login",
+      "success": "Login succesful. Redirecting to homepage...",
+      "validate": {
+        "name": "Name is required",
+        "password": "Password is required"
+      },
+      "label": { "username": "Username:", "password": "Password:" }
+    },
+    "header": {
+      "title": "Game Club App",
+      "welcome": "Welcome",
+      "nav": {
+        "home": "Home",
+        "clubs": "Clubs",
+        "events": "Events",
+        "login": "Login",
+        "logout": "Logout"
+      }
+    },
+    "home": {
+      "title": "Welcome!",
+      "description1": "Calling all game enthusiasts! Dive into a world of endless fun and connection with our Game Club Management app.",
+      "description2": "Whether you're a board game buff, a video game virtuoso, or a role-playing legend, this app is your gateway to an exciting community of like-minded players.",
+      "description3": "Discover and join clubs that match your interests, create your own gaming events, and connect with fellow gamers who share your passion.",
+      "description4": "From classic chess to cutting-edge VR experiences, weekly D&D campaigns to city-wide laser tag showdowns, the possibilities are as limitless as your imagination."
+    },
+    "clubs": {
+      "title": "Game Clubs",
+      "table": {
+        "headtitle": "Game clubs overview",
+        "overview": {
+          "name": "Name",
+          "description": "Description",
+          "type": "Type",
+          "organiser": "Organiser"
+        },
+        "details": {
+          "title": "Club Details",
+          "parameter": "Parameter",
+          "value": "Value",
+          "id": "ID:",
+          "name": "Name:",
+          "description": "Description:",
+          "type": "Type:",
+          "members": "Members:",
+          "organiser": "Organiser:",
+          "events": "Events:"
+        }
+      }
+    },
+    "events": {
+      "title": "Game Events",
+      "table": {
+        "headtitle": "Game events overview",
+        "signup": "Participant sign-up for ",
+        "title": "Game Club info",
+        "info": "Info of ",
+        "loading": "Loading",
+        "overview": {
+          "title": "Title",
+          "description": "Description",
+          "location": "Location",
+          "date": "Date",
+          "time": "Time",
+          "club": "Club"
+        }      
+      }
+    },
+    "signup": {
+      "firstname": "Firstname",
+      "lastname": "Lastname",
+      "email": "Email"
+    },
+    "language": "Language"
+  }

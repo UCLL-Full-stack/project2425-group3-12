@@ -1,0 +1,80 @@
+{
+  "app.title": "Clubes de juego",
+  "general.error": "Se ha producido un error. Inténtelo de nuevo más tarde.",
+  "login": {
+    "title": "Acceso",
+    "button": "Acceso",
+    "success": "Inicio de sesión exitoso. Redireccionando a la página de inicio...",
+    "validate": {
+      "name": "El nombre es obligatorio",
+      "password": "Se requiere contraseña"
+    },
+    "label": { "username": "Nombre de usuario:", "password": "Contraseña:" }
+  },
+  "header": {
+    "title": "Aplicación Game Club",
+    "welcome": "Bienvenido",
+    "nav": {
+      "home": "Hogar",
+      "clubs": "Clubs",
+      "events": "Eventos",
+      "login": "Acceso",
+      "logout": "Cerrar sesión"
+    }
+  },
+  "home": {
+    "title": "¡Bienvenido!",
+    "description1": "¡Llamamos a todos los entusiastas de los juegos! Sumérgete en un mundo de diversión y conexión sin fin con nuestra aplicación Game Club Management.",
+    "description2": "Ya sea que seas un aficionado a los juegos de mesa, un virtuoso de los videojuegos o una leyenda de los juegos de rol, esta aplicación es tu puerta de entrada a una emocionante comunidad de jugadores con ideas afines.",
+    "description3": "Descubre y únete a clubes que coincidan con tus intereses, crea tus propios eventos de juego y conéctate con otros jugadores que comparten tu pasión.",
+    "description4": "Desde ajedrez clásico hasta experiencias de realidad virtual de vanguardia, campañas semanales de D&D y enfrentamientos con laser tag por toda la ciudad, las posibilidades son tan ilimitadas como tu imaginación."
+  },
+  "clubs": {
+    "title": "Clubes de juego",
+    "table": {
+      "headtitle": "Descripción general de los clubes de juego",
+      "overview": {
+        "name": "Nombre",
+        "description": "Descripción",
+        "type": "Tipo",
+        "organiser": "Organizador"
+      },
+      "details": {
+        "title": "Detalles del club",
+        "parameter": "Parámetro",
+        "value": "Valor",
+        "id": "IDENTIFICACIÓN:",
+        "name": "Nombre:",
+        "description": "Descripción:",
+        "type": "Tipo:",
+        "members": "Miembros:",
+        "organiser": "Organizador:",
+        "events": "Eventos:"
+      }
+    }
+  },
+  "events": {
+    "title": "Eventos del juego",
+    "table": {
+      "headtitle": "Resumen de eventos del juego",
+      "signup": "Inscripción de participantes para ",
+      "title": "Información del club de juegos",
+      "info": "Información de ",
+      "loading": "Cargando",
+      "overview": {
+        "title": "Título",
+        "description": "Descripción",
+        "location": "Ubicación",
+        "date": "Fecha",
+        "time": "Tiempo",
+        "club": "Club"
+      }      
+    }
+  },
+  "signup": {
+    "firstname": "Nombre de pila",
+    "lastname": "Apellido",
+    "email": "Correo electrónico"
+  },
+  "language": "Idioma"
+}

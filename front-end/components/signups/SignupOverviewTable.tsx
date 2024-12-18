@@ -1,19 +1,23 @@
 import React from "react";
 import { Event } from "@types";
+import { useTranslation } from "next-i18next";
 
 type Props = {
   event: Event;
 };
 
 const SignupOverviewTable: React.FC<Props> = ({ event }: Props) => {
+
+  const { t } = useTranslation();
+
   return (
     <>
       <table className="table table-hover">
         <thead>
           <tr>
-            <th scope="col">Firstname</th>
-            <th scope="col">Lastname</th>
-            <th scope="col">Email</th>
+            <th scope="col">{t('signup.firstname')}</th>
+            <th scope="col">{t('signup.lastname')}</th>
+            <th scope="col">{t('signup.email')}</th>
           </tr>
         </thead>
         <tbody>
