@@ -6,6 +6,7 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { clubRouter } from './controller/club.routes';
 import { eventRouter } from './controller/event.routes';
+import { userRouter } from './controller/user.routes';
 
 const app = express();
 dotenv.config();
@@ -16,7 +17,8 @@ app.use(bodyParser.json());
 
 // Define the route for the clubs
 app.use('/clubs', clubRouter);   
-app.use('/events', eventRouter) 
+app.use('/events', eventRouter)
+app.use('/users', userRouter);
 
 // Define a route for the back-end status
 app.get('/status', (req, res) => {
@@ -47,6 +49,12 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
         res.status(401).json({ status: 'unauthorized', message: err.message });
     } else if (err.name === 'CoursesError') {
         res.status(400).json({ status: 'domain error', message: err.message });
+    } else if (err.name === 'ValidationError') {
+        res.status(400).json({ status: 'validation error', message: err.message });
+    } else if (err.name === 'DatabaseError') {
+        res.status(400).json({ status: 'database error', message: err.message });
+    } else if (err.name === 'AuthenticationError') {
+        res.status(400).json({ status: 'authentication error', message: err.message });
     } else {
         res.status(400).json({ status: 'application error', message: err.message });
     }

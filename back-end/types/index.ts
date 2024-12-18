@@ -45,6 +45,13 @@ type EventInput = {
     club: ClubInput;
 }
 
+type AuthenticationResponse = {
+    token: string;
+    username: string;
+    fullname: string;
+    role: string;
+};
+
 export {
     Role,
     ClubType,
@@ -52,5 +59,6 @@ export {
     MemberInput,
     OrganiserInput,
     UserInput,
-    EventInput
+    EventInput,
+    AuthenticationResponse
 };
