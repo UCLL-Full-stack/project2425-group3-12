@@ -4,7 +4,11 @@ import Language from "@components/language/Language";
 import { useTranslation } from "next-i18next";
 import {AuthenticationResponse, User} from "@types";
 
-const Header: React.FC = () => {
+type HeaderProps = {
+  onLogout?: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({onLogout}) => {
   const [loggedInUser, setLoggedInUser] = useState<AuthenticationResponse| null>(null);
 
   useEffect(() => {
@@ -16,6 +20,9 @@ const Header: React.FC = () => {
   const handleClick = () => {
     localStorage.removeItem("loggedInUser");
     setLoggedInUser(null);
+    if (onLogout) {
+      onLogout();
+    }
   }
 
   const { t } = useTranslation();

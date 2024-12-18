@@ -11,8 +11,8 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 const Events: React.FC = () => {
     const [events, setEvents] = useState<Array<Event>>([]);
     const [error, setError] = useState<string>();
-    const [selectedEvent, setSelectedEvent] = useState<Event>();
-    const [loggedInUser, setLoggedInUser] = useState<AuthenticationResponse| null>(null);
+    const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+    const [loggedInUser, setLoggedInUser] = useState<AuthenticationResponse | null>(null);
     const {t} = useTranslation();
 
     const getEvents = async () => {
@@ -37,12 +37,19 @@ const Events: React.FC = () => {
         getEvents();
     }, []);
 
+    const handleLogout = () => {
+        setEvents([]);
+        setSelectedEvent(null);
+        setLoggedInUser(null);
+        getEvents();
+    };
+
     return (
         <>
             <Head>
                 <title>{t('events.title')}</title>
             </Head>
-            <Header/>
+            <Header onLogout={handleLogout}/>
             <main className="d-flex flex-column justify-content-center align-items-center">
                 <h1>
                     {t('events.title')}

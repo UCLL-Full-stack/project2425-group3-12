@@ -35,12 +35,18 @@ const Clubs: React.FC = () => {
         getClubs();
     }, [] );
 
+    const handleLogout = () => {
+        setClubs([]);
+        setLoggedInUser(null);
+        getClubs();
+    };
+
     return (
         <>
             <Head>
                 <title>{t('clubs.title')}</title>
             </Head>
-            <Header/>
+            <Header onLogout={handleLogout}/>
             <main className="d-flex flex-column justify-content-center align-items-center">
                 <h1>
                     {t('clubs.title')}{' '}
