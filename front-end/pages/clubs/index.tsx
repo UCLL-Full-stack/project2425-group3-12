@@ -1,29 +1,39 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import Header from '@components/header';
-import styles from '@styles/home.module.css';
 import { useEffect, useState } from 'react';
-import { Club } from '@types';
+import {AuthenticationResponse, Club} from '@types';
 import ClubService from '@services/ClubService';
 import ClubOverviewTable from '@components/clubs/ClubOverviewTable';
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Clubs: React.FC = () => {
-
     const [clubs, setClubs] = useState<Array<Club>>([]);
-    
+    const [error, setError] = useState<string>();
+    const [loggedInUser, setLoggedInUser] = useState<AuthenticationResponse| null>(null);
+    const {t} = useTranslation();
+
     const getClubs = async () => {
+        setError("");
+        const storedUser = localStorage.getItem("loggedInUser");
+        const loggedInUser = storedUser ? JSON.parse(storedUser) : null;
+        setLoggedInUser(loggedInUser);
         const response = await ClubService.getAllClubs();
-        const clubs = await response.json();
-        setClubs(clubs);
+        if(!response.ok) {
+            if(response.status === 401) {
+                setError("You are not authorized to view this page. Please login first.");
+            } else {
+                setError(response.statusText);
+            }
+        } else {
+            const clubs = await response.json();
+            setClubs(clubs);
+        }
     }
 
     useEffect(() => {
         getClubs();
-    }, [] )
-
-    const {t} = useTranslation();
+    }, [] );
 
     return (
         <>
@@ -32,16 +42,20 @@ const Clubs: React.FC = () => {
             </Head>
             <Header/>
             <main className="d-flex flex-column justify-content-center align-items-center">
-                <h1>{t('clubs.title')}</h1>
-                <section>
-                    <h2>{t('clubs.table.headtitle')}</h2>
-                    {clubs && (
-                        <ClubOverviewTable
-                            clubs = {clubs}
-                        />
-                    )
-                    }
-                </section>
+                <h1>
+                    {t('clubs.title')}{' '}
+                    {loggedInUser && (
+                        loggedInUser.role === 'admin'
+                            ? ': all (admin)'
+                            : `for ${loggedInUser.fullname || ''}`
+                    )}
+                </h1>
+                {error && <div className="text-red-800">{error}</div>}
+                {clubs && (
+                    <section>
+                        <ClubOverviewTable clubs = {clubs} />
+                    </section>
+                )}
             </main>
         </>
      );

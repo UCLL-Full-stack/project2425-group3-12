@@ -1,11 +1,13 @@
 const getAllEvents = async () => {
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/events",  {
+    const storedUser = localStorage.getItem("loggedInUser");
+    const token = storedUser ? JSON.parse(storedUser)?.token : null;
+    return await fetch(process.env.NEXT_PUBLIC_API_URL + "/events", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
         },
     });
-    return response;
 };
   
   

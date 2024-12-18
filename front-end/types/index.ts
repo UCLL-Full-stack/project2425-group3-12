@@ -1,15 +1,22 @@
 type Role = 'admin' | 'organiser' | 'member' | 'guest';
-type ClubType = 'Chess' | 'Rugby' | 'DnD' | 'Soccer' | 'Tennis' | 'Capoeira' | 'Kizomba' ;
+type ClubType = 'Chess' | 'Rugby' | 'DnD' | 'Soccer' | 'Tennis' ;
 
 export type User = {
     id?: number;
+    username?: string;
     firstName?: string;
     lastName?: string;
     email?: string;
     password?: string;
     role?: Role;
-    // userName?: string;
 }
+
+export type AuthenticationResponse = {
+    token: string;
+    username: string;
+    fullname: string;
+    role: string;
+};
 
 export type Member = {
     id: number;

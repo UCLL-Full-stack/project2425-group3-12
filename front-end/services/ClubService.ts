@@ -1,21 +1,25 @@
 const getAllClubs = async () => {
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/clubs", {
+    const storedUser = localStorage.getItem("loggedInUser");
+    const token = storedUser ? JSON.parse(storedUser)?.token : null;
+    return await fetch(process.env.NEXT_PUBLIC_API_URL + "/clubs", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
         },
     });
-    return response;
 };
 
 const getClubById = async (clubId: string) => {
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/clubs/" + clubId, {
+    const storedUser = localStorage.getItem("loggedInUser");
+    const token = storedUser ? JSON.parse(storedUser)?.token : null;
+    return await fetch(process.env.NEXT_PUBLIC_API_URL + "/clubs/" + clubId, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
         },
     });
-    return response;
 };
   
 const ClubService = {

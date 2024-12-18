@@ -6,6 +6,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Login: React.FC = () => {
     const {t} = useTranslation();
+
     return (
         <>
             <Head>

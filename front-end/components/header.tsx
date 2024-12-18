@@ -2,22 +2,19 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Language from "@components/language/Language";
 import { useTranslation } from "next-i18next";
-import { User } from "@types";
+import {AuthenticationResponse, User} from "@types";
 
 const Header: React.FC = () => {
-  const [loggedInUser, setLoggedInUser] = useState<String | null>(null);
-  // const [loggedInUser, setLoggedInUser] = useState<User>(null);
+  const [loggedInUser, setLoggedInUser] = useState<AuthenticationResponse| null>(null);
 
   useEffect(() => {
-    setLoggedInUser(sessionStorage.getItem("loggedInUser"));
+    const storedUser = localStorage.getItem("loggedInUser");
+    const loggedInUser = storedUser ? JSON.parse(storedUser) : null;
+    setLoggedInUser(loggedInUser);
   }, []);
 
-  // useEffect(() => {
-  //   setLoggedInUser(JSON.parse(localStorage.getItem("loggedInUser")));
-  // }, []);
-
   const handleClick = () => {
-    sessionStorage.removeItem("loggedInUser");
+    localStorage.removeItem("loggedInUser");
     setLoggedInUser(null);
   }
 
@@ -66,9 +63,9 @@ const Header: React.FC = () => {
           </a>
         )}
         {loggedInUser && (
-          <div className="text-white ms-5 mt-2 md:mt-0 pt-1 md:pt-0 grow">
-            {t('header.welcome')}, {loggedInUser}!
-          </div>
+            <div className="px-4 fs-5 text-white">
+              {t('header.welcome')}, {loggedInUser.fullname || ''}!
+            </div>
         )}
         <Language/>
       </nav>
