@@ -57,7 +57,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     if (err.name === 'UnauthorizedError') {
         res.status(401).json({ status: 'unauthorized', message: err.message });
-    } else if (err.name === 'CoursesError') {
+    } else if (err.name === 'GameClubError') {
         res.status(400).json({ status: 'domain error', message: err.message });
     } else if (err.name === 'ValidationError') {
         res.status(400).json({ status: 'validation error', message: err.message });

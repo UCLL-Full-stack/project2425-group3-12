@@ -103,6 +103,8 @@ eventRouter.get('/', async (req: Request, res: Response, next: NextFunction) => 
  *  get:
  *      tags: [Event]
  *      summary: Retrieve an event by its id
+ *      security:
+ *          - bearerAuth: []
  *      parameters:
  *          - in: path
  *            name: id

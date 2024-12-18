@@ -65,6 +65,7 @@
  */
 import express, { NextFunction, Request, Response } from "express";
 import clubService from "../service/club.service";
+import {JoinClubInput, Role} from "../types";
 
 const clubRouter = express.Router();
 
@@ -74,6 +75,8 @@ const clubRouter = express.Router();
  *  get:
  *      tags: [Club]
  *      summary: Retrieve a list of all clubs
+ *      security:
+ *          - bearerAuth: []
  *      responses:
  *          200:
  *              description: A list of clubs
@@ -86,7 +89,9 @@ const clubRouter = express.Router();
  */
 clubRouter.get("/", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const clubs = await clubService.getAllClubs();
+        const request = req as Request & { auth: { username: string; role: Role } };
+        const { username, role } = request.auth;
+        const clubs = await clubService.getClubs({ username, role });
         res.status(200).json(clubs);
     } catch (error) {
         next(error);
@@ -99,6 +104,8 @@ clubRouter.get("/", async (req: Request, res: Response, next: NextFunction) => {
  *  get:
  *      tags: [Club]
  *      summary: Retrieve a club by its id
+ *      security:
+ *          - bearerAuth: []
  *      parameters:
  *          - in: path
  *            name: id
@@ -120,6 +127,60 @@ clubRouter.get("/:id", async (req: Request, res: Response, next: NextFunction) =
     try {
         const club = await clubService.getClubById(Number(req.params.id));
         res.status(200).json(club);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /clubs/join:
+ *   post:
+ *     tags: [Club]
+ *     summary: Add a member to a club
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - club
+ *               - member
+ *             properties:
+ *               club:
+ *                 type: object
+ *                 required:
+ *                   - id
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     description: The ID of the club to join
+ *               member:
+ *                 type: object
+ *                 required:
+ *                   - id
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     description: The ID of the member joining the club
+ *     responses:
+ *       200:
+ *         description: The updated club with the new member
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Club'
+ */
+clubRouter.post("/join", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const joinInput = <JoinClubInput>req.body;
+        const request = req as Request & { auth: { username: string; role: Role } };
+        const { role } = request.auth;
+        const result = await clubService.addMemberToClub(joinInput, { role });
+        res.status(200).json(result);
     } catch (error) {
         next(error);
     }

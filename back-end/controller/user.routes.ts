@@ -129,7 +129,20 @@ userRouter.post('/signup', async (req: Request, res: Response, next: NextFunctio
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/UserInput'
+ *             type: object
+ *             required:
+ *               - username
+ *               - password
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: User's username
+ *               password:
+ *                 type: string
+ *                 description: User's password
+ *             example:
+ *               username: "john.doe"
+ *               password: "password123"
  *     responses:
  *       200:
  *         description: Authentication successful
@@ -141,9 +154,23 @@ userRouter.post('/signup', async (req: Request, res: Response, next: NextFunctio
  *                 message:
  *                   type: string
  *                   description: Success message
+ *                   example: "Authentication successful"
  *                 token:
  *                   type: string
  *                   description: JWT token
+ *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ *                 username:
+ *                   type: string
+ *                   description: Username of authenticated user
+ *                   example: "john.doe"
+ *                 fullname:
+ *                   type: string
+ *                   description: Full name of authenticated user
+ *                   example: "John Doe"
+ *                 role:
+ *                   type: string
+ *                   description: Role of authenticated user
+ *                   example: "member"
  */
 userRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
     try {
