@@ -38,7 +38,9 @@
           "description": "Description",
           "type": "Type",
           "organiser": "Organiser",
-          "button": "Create event"
+          "button": "Create/Join",
+          "create": "Create event",
+          "join": "Join club"
         },
         "details": {
           "title": "Club Details",

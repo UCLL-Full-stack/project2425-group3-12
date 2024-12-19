@@ -25,17 +25,17 @@ const CreateEventForm: React.FC = () => {
   const validate = (): boolean => {
     let isValid = true;
 
-    if (!name.trim()) {
+    if (!name && name.trim() === "") {
       setShowNameError(true);
       isValid = false;
     }
 
-    if (!description.trim()) {
+    if (!description && description.trim() === "") {
       setShowDescriptionError(true);
       isValid = false;
     }
 
-    if (!date.trim()) {
+    if (!date && date.trim() === "") {
       setShowDateError(true);
       isValid = false;
     }

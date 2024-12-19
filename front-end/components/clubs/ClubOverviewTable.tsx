@@ -54,13 +54,19 @@ const ClubOverviewtable: React.FC<Props> = ({ clubs, selectClub }: Props) => {
                         {`${club?.organiser?.user?.firstName || ''} ${club?.organiser?.user?.lastName || ''}`}
                     </td>
                     <td>
-                        <Link
-                            href={`/schedule/create_event/${club.id}`}>
-                            <button className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                            {/* <button className="login-button"> */}
-                                {t('clubs.table.overview.button')}
-                            </button>
-                        </Link>
+                    {loggedInUser.role === "organiser" || loggedInUser.role === "admin" ? (
+                            <Link href={`/schedule/create_event/${club.id}`}>
+                                <button className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                    {t('clubs.table.overview.create')}
+                                </button>
+                            </Link>
+                        ) : loggedInUser.role === "member" ? (
+                            <Link href={`/club/details/${club.id}`}>
+                                <button className="text-white bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                    {t('clubs.table.overview.join')}
+                                </button>
+                            </Link>
+                        ) : null}
                     </td>
                 </tr>
             ))}

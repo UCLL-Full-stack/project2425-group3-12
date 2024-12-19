@@ -38,7 +38,9 @@
         "description": "Descripción",
         "type": "Tipo",
         "organiser": "Organizador",
-        "button": "Crear evento"
+        "button": "Crear/Unirse",
+        "create": "Crear evento",
+        "join": "Unirse al club"
       },
       "details": {
         "title": "Detalles del club",
