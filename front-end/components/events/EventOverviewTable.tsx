@@ -17,15 +17,27 @@ const EventsOverviewtable: React.FC<Props> = ({events, selectEvent}: Props) => {
         const storedUser = localStorage.getItem("loggedInUser");
         const loggedInUser = storedUser ? JSON.parse(storedUser) : null;
         setLoggedInUser(loggedInUser);
+
         // Filter events when user or events data changes
-        if (loggedInUser && events) {
-            const userEvents = events.filter(
-                (event) => event?.club?.organiser?.user.username === loggedInUser.username
-            );
-            setFilteredEvents(userEvents);
-        }
-        if (loggedInUser.role === 'admin') {
-            setFilteredEvents(events);
+        if (loggedInUser) {
+            if (loggedInUser.role === 'admin') {
+                // Admin sees all events
+                setFilteredEvents(events);
+            } else if (loggedInUser.role === 'member') {
+                // Member sees events where they are a member of the club
+                const memberEvents = events?.filter(
+                    (event) => event?.club?.members?.some(
+                        (member) => member?.user?.username === loggedInUser.username
+                    )
+                ) || [];
+                setFilteredEvents(memberEvents);
+            } else {
+                // Regular user sees only events they organized
+                const userEvents = events?.filter(
+                    (event) => event?.club?.organiser?.user?.username === loggedInUser.username
+                ) || [];
+                setFilteredEvents(userEvents);
+            }
         }
     }, [events]);
 
