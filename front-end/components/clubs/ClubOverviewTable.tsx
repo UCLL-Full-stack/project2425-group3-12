@@ -22,6 +22,9 @@ const ClubOverviewtable: React.FC<Props> = ({ clubs }: Props) => {
             );
             setFilteredClubs(userClubs);
         }
+        if (loggedInUser?.role === 'admin') {
+            setFilteredClubs(clubs);
+        }
     }, [clubs]);
 
     if (!loggedInUser) {

@@ -24,6 +24,9 @@ const EventsOverviewtable: React.FC<Props> = ({events, selectEvent}: Props) => {
             );
             setFilteredEvents(userEvents);
         }
+        if (loggedInUser.role === 'admin') {
+            setFilteredEvents(events);
+        }
     }, [events]);
 
     if (!loggedInUser) {
