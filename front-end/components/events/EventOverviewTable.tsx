@@ -7,9 +7,14 @@ import EventService from '@services/EventService';
 type Props = {
     events: Array<Event>;
     selectEvent: (event: Event) => void;
+    onSignupSuccess: () => void;  // Add this prop
 };
 
-const EventsOverviewtable: React.FC<Props> = ({events, selectEvent}: Props) => {
+const EventsOverviewtable: React.FC<Props> = ({
+                                                  events,
+                                                  selectEvent,
+                                                  onSignupSuccess
+                                              }: Props) => {
     const [loggedInUser, setLoggedInUser] = useState<AuthenticationResponse | null>(null);
     const [filteredEvents, setFilteredEvents] = useState<Array<Event>>([]);
     const [signupError, setSignupError] = useState<string>("");
@@ -39,14 +44,12 @@ const EventsOverviewtable: React.FC<Props> = ({events, selectEvent}: Props) => {
 
             if (!loggedInUser) return;
 
-            // Get the member ID using the logged-in username
             const memberResponse = await MemberService.getMemberByUsername(loggedInUser.username);
             if (!memberResponse.ok) {
                 throw new Error('Failed to get member information');
             }
             const memberData = await memberResponse.json();
 
-            // Make the signup request
             const response = await EventService.signupForEvent(event.id, memberData.id);
             if (!response.ok) {
                 const errorData = await response.json();
@@ -57,6 +60,9 @@ const EventsOverviewtable: React.FC<Props> = ({events, selectEvent}: Props) => {
                 const updatedEvents = await refreshResponse.json();
                 setFilteredEvents(updatedEvents);
             }
+            console.log("Signup successful, triggering refresh...");
+            onSignupSuccess();
+
         } catch (error) {
             setSignupError(error instanceof Error ? error.message : 'An error occurred');
         }

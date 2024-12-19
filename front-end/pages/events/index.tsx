@@ -10,8 +10,8 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Events: React.FC = () => {
     const [events, setEvents] = useState<Array<Event>>([]);
-    const [error, setError] = useState<string>();
     const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+    const [error, setError] = useState<string>();
     const [loggedInUser, setLoggedInUser] = useState<AuthenticationResponse | null>(null);
     const {t} = useTranslation();
 
@@ -44,6 +44,23 @@ const Events: React.FC = () => {
         getEvents();
     };
 
+    const refreshSelectedEvent = async () => {
+        if (selectedEvent) {
+            const response = await EventService.getEventById(selectedEvent.id); // You'll need to add this method to your EventService
+            if (response.ok) {
+                const updatedEvent = await response.json();
+                setSelectedEvent(updatedEvent);
+
+                // Also update the event in the events list
+                setEvents(prevEvents =>
+                    prevEvents.map(event =>
+                        event.id === updatedEvent.id ? updatedEvent : event
+                    )
+                );
+            }
+        }
+    };
+
     return (
         <>
             <Head>
@@ -62,15 +79,17 @@ const Events: React.FC = () => {
                 {error && <div className="text-red-800">{error}</div>}
                 {events && (
                     <section>
-                        <EventOverviewTable events={events} selectEvent={setSelectedEvent}/>
+                        <EventOverviewTable
+                            events={events}
+                            selectEvent={setSelectedEvent}
+                            onSignupSuccess={refreshSelectedEvent}
+                        />
                     </section>
                 )}
                 {selectedEvent && (
                     <section>
-                        <>
-                            <h2>{t('events.table.signup')}{selectedEvent.title}</h2>
-                            <SignupOverviewTable event={selectedEvent}/>
-                        </>
+                        <h2>{t('events.table.signup')} {selectedEvent.title}</h2>
+                        <SignupOverviewTable event={selectedEvent} />
                     </section>
                 )}
             </main>
