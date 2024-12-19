@@ -180,7 +180,7 @@ const CreateEventForm: React.FC = () => {
                 <input
                     id="descriptionInput"
                     type="text"
-                    value={name}
+                    value={description}
                     onChange={(event) => setDescription(event.target.value)}
                     className="input-field"
                 />
@@ -194,7 +194,7 @@ const CreateEventForm: React.FC = () => {
                 <input
                     id="locationInput"
                     type="text"
-                    value={name}
+                    value={location}
                     onChange={(event) => setLocation(event.target.value)}
                     className="input-field"
                 />
