@@ -8,6 +8,7 @@ import { expressjwt } from 'express-jwt';
 import { clubRouter } from './controller/club.routes';
 import { eventRouter } from './controller/event.routes';
 import { userRouter } from './controller/user.routes';
+import { memberRouter } from './controller/member.routes';
 
 const app = express();
 dotenv.config();
@@ -29,6 +30,7 @@ app.use(
 app.use('/clubs', clubRouter);   
 app.use('/events', eventRouter)
 app.use('/users', userRouter);
+app.use('/members', memberRouter);
 
 // Define a route for the back-end status
 app.get('/status', (req, res) => {

@@ -33,11 +33,14 @@
     "title": "Clubes de juego",
     "table": {
       "headtitle": "Descripción general de los clubes de juego",
+      "joinButton": "Unirse al club",
+      "joinedButton": "Ya unido",
       "overview": {
         "name": "Nombre",
         "description": "Descripción",
         "type": "Tipo",
-        "organiser": "Organizador"
+        "organiser": "Organizador",
+        "action": "Acción"
       },
       "details": {
         "title": "Detalles del club",

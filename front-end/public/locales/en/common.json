@@ -33,11 +33,14 @@
       "title": "Game Clubs",
       "table": {
         "headtitle": "Game clubs overview",
+        "joinButton": "Join Club",
+        "joinedButton": "Already joined",
         "overview": {
           "name": "Name",
           "description": "Description",
           "type": "Type",
-          "organiser": "Organiser"
+          "organiser": "Organiser",
+          "action": "Action"
         },
         "details": {
           "title": "Club Details",

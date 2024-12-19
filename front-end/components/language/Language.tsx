@@ -15,7 +15,7 @@ const Language: React.FC = () => {
   const { t } = useTranslation();
   return (
     <div className="ml-6">
-      <label htmlFor="language" className="text-white">
+      <label htmlFor="language" className="text-white px-3">
         {t('language')}
       </label>
       <select

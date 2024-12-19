@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({onLogout}) => {
 
   return (
     <header className="p-3 mb-3 border-bottom bg-dark bg-gradient">
-      <a className="fs-2 d-flex justify-content-center mb-2 mb-lg-0 text-white-50 text-decoration-none">
+      <a className="fs-2 d-flex justify-content-center mb-3 text-white-50 text-decoration-none">
         {" "}
         {t('header.title')}
       </a>

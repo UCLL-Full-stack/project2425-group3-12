@@ -27,6 +27,26 @@ const getMemberById = async ({id} : {id : number}) : Promise<Member | null> => {
     }
 }
 
+const getMemberByUsername = async ({ username }: { username: string }): Promise<Member | null> => {
+    try {
+        const memberPrisma = await database.member.findFirst({
+            where: {
+                user: {
+                    username: username
+                }
+            },
+            include: {
+                user: true
+            }
+        });
+
+        return memberPrisma ? Member.from(memberPrisma) : null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.')
+    }
+}
+
 const createMember = async (member : Member) : Promise<Member> => {
     try {
         const memberPrisma = await database.member.create({
@@ -55,5 +75,6 @@ const createMember = async (member : Member) : Promise<Member> => {
 export default {
     getAllMembers,
     getMemberById,
+    getMemberByUsername,
     createMember,
 };

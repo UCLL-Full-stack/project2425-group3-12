@@ -91,6 +91,12 @@ button {
 button:hover {
     background-color: #1d4ed8; /* hover:bg-blue-800 */
 }
+button:disabled {
+    background-color: #d1d5db; /* Gray background */
+    color: #6b7280; /* Gray text */
+    cursor: not-allowed; /* Disabled cursor */
+    pointer-events: none; /* Prevent all interactions */
+}
 
 /* Custom Colors */
 .text-red-800 {
