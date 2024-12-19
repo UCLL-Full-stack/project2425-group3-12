@@ -44,7 +44,7 @@ const swaggerOpts = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'Courses API',
+            title: 'Game Club API',
             version: '1.0.0',
         },
     },

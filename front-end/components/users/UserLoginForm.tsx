@@ -57,10 +57,10 @@ const UserLoginForm: React.FC = () => {
         try {
             if(!response.ok){
                 // Get the error message from the response
-                const errorData = await response.json();
+                const error = await response.json();
                 setStatusMessages([
                     {
-                        message: errorData.errorMessage || t("general.error"),
+                        message: error.message || t("general.error"),
                         type: "error",
                     },
                 ]);
@@ -108,10 +108,10 @@ const UserLoginForm: React.FC = () => {
             {/* <div className="center-container"> */}
             {/* <div className="login-form-wrapper"></div> */}
             <h3 className="px-0 login-title">{t('login.title')}</h3>
-            <div className="center-container">
+            <div className="col-2 m-auto">
                 {statusMessages && (
-                    <div className="row">
-                        <ul className="list-none mb-3 mx-auto ">
+                    <div className="text-red-800 ">
+                        <ul className="list-unstyled ">
                             {statusMessages.map(({ message, type }, index) => (
                                 <li
                                     key={index}

@@ -17,12 +17,26 @@ const ClubOverviewtable: React.FC<Props> = ({ clubs, selectClub }: Props) => {
         const storedUser = localStorage.getItem("loggedInUser");
         const loggedInUser = storedUser ? JSON.parse(storedUser) : null;
         setLoggedInUser(loggedInUser);
-        // Filter clubs when user or clubs data changes
-        if (loggedInUser && clubs) {
-            const userClubs = clubs.filter(
-                (club) => club?.organiser?.user.username === loggedInUser.username
-            );
-            setFilteredClubs(userClubs);
+
+        if (loggedInUser) {
+            if (loggedInUser.role === 'admin') {
+                // Admin sees all clubs
+                setFilteredClubs(clubs);
+            } else if (loggedInUser.role === 'member') {
+                // Member sees clubs where they are a member
+                const memberClubs = clubs?.filter(
+                    (club) => club?.members?.some(
+                        (member) => member?.user?.username === loggedInUser.username
+                    )
+                ) || [];
+                setFilteredClubs(memberClubs);
+            } else {
+                // Regular user sees only clubs they organized
+                const userClubs = clubs?.filter(
+                    (club) => club?.organiser?.user?.username === loggedInUser.username
+                ) || [];
+                setFilteredClubs(userClubs);
+            }
         }
     }, [clubs]);
 
