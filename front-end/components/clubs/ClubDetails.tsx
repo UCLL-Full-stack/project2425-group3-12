@@ -11,7 +11,7 @@ const ClubDetails: React.FC<Props> = ({ club }: Props) => {
 
   return (
     <>
-      <h2>{t('clubs.table.details.title')}</h2>
+      <h3>{t('clubs.table.details.title')}</h3>
       {club && (
         <table className="table">
           <thead>

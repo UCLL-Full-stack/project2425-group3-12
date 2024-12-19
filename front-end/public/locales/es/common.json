@@ -37,7 +37,8 @@
         "name": "Nombre",
         "description": "Descripción",
         "type": "Tipo",
-        "organiser": "Organizador"
+        "organiser": "Organizador",
+        "button": "Crear evento"
       },
       "details": {
         "title": "Detalles del club",

@@ -6,10 +6,12 @@ import ClubService from '@services/ClubService';
 import ClubOverviewTable from '@components/clubs/ClubOverviewTable';
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import ClubDetails from '@components/clubs/ClubDetails';
 
 const Clubs: React.FC = () => {
     const [clubs, setClubs] = useState<Array<Club>>([]);
     const [error, setError] = useState<string>();
+    const [selectedClub, setSelectedClub] = useState<Club | null>(null);
     const [loggedInUser, setLoggedInUser] = useState<AuthenticationResponse| null>(null);
     const {t} = useTranslation();
 
@@ -37,6 +39,7 @@ const Clubs: React.FC = () => {
 
     const handleLogout = () => {
         setClubs([]);
+        setSelectedClub(null);
         setLoggedInUser(null);
         getClubs();
     };
@@ -59,9 +62,18 @@ const Clubs: React.FC = () => {
                 {error && <div className="text-red-800">{error}</div>}
                 {clubs && (
                     <section>
-                        <ClubOverviewTable clubs = {clubs} />
+                        <ClubOverviewTable clubs = {clubs} selectClub={setSelectedClub}/>
                     </section>
                 )}
+                {selectedClub && (
+                    <section>
+                        <>
+                            <h2>{selectedClub && selectedClub.name}</h2>
+                            {!selectedClub}
+                            <ClubDetails club={selectedClub}/>
+                        </>
+                    </section>
+                )} 
             </main>
         </>
      );

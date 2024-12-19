@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from "react";
 import {AuthenticationResponse, Club} from "@types";
 import { useTranslation } from "next-i18next";
+import Link from "next/link";
 
 type Props = {
     clubs: Array<Club>;
+    selectClub: (club: Club) => void;
 };
 
-const ClubOverviewtable: React.FC<Props> = ({ clubs }: Props) => {
+const ClubOverviewtable: React.FC<Props> = ({ clubs, selectClub }: Props) => {
     const [loggedInUser, setLoggedInUser] = useState<AuthenticationResponse | null>(null);
     const [filteredClubs, setFilteredClubs] = useState<Array<Club>>([]);
     const { t } = useTranslation();
@@ -37,16 +39,28 @@ const ClubOverviewtable: React.FC<Props> = ({ clubs }: Props) => {
                 <th scope="col">{t('clubs.table.overview.description')}</th>
                 <th scope="col">{t('clubs.table.overview.type')}</th>
                 <th scope="col">{t('clubs.table.overview.organiser')}</th>
+                <th scope="col">{t('clubs.table.overview.button')}</th>
             </tr>
             </thead>
             <tbody>
             {filteredClubs.map((club, index) => (
-                <tr key={index}>
+                <tr key={index}
+                    onClick={() => selectClub(club)}
+                    role="button">
                     <td>{club.name}</td>
                     <td>{club.description}</td>
                     <td>{club.type}</td>
                     <td>
                         {`${club?.organiser?.user?.firstName || ''} ${club?.organiser?.user?.lastName || ''}`}
+                    </td>
+                    <td>
+                        <Link
+                            href={`/schedule/create_event/${club.id}`}>
+                            <button className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                            {/* <button className="login-button"> */}
+                                {t('clubs.table.overview.button')}
+                            </button>
+                        </Link>
                     </td>
                 </tr>
             ))}
