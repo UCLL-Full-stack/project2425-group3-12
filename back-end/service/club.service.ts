@@ -1,8 +1,8 @@
 import { Club } from "../model/club"
-import {UnauthorizedError} from "express-jwt";
 import clubDb from "../repository/club.db"
 import {Role, ClubInput, MemberInput} from "../types";
 import memberDb from "../repository/member.db";
+import organiserDd from "../repository/organiser.db";
 import { GameClubError, ValidationError, AuthenticationError, DatabaseError } from "../util/errors";
 
 
@@ -54,4 +54,27 @@ const addMemberToClub = async (
     }
 }
 
-export default { getClubs, getClubById, addMemberToClub }
+const createClub = async (clubInput: ClubInput): Promise<Club> => {
+    if (!clubInput.organiser.id) throw new ValidationError('Organiser id is required');
+
+    const organiser = await organiserDd.getOrganiserById({id: clubInput.organiser.id});
+    if (!organiser) throw new GameClubError('Organiser not found');
+
+    // Initialize with empty members array since they'll be added later
+    const club = new Club({
+        name: clubInput.name,
+        description: clubInput.description,
+        type: clubInput.type,
+        members: [],
+        organiser: organiser,
+        events: []
+    });
+
+    try {
+        return await clubDb.createClub(club);
+    } catch (error) {
+        throw new DatabaseError('Failed to create club');
+    }
+}
+
+export default { getClubs, getClubById, addMemberToClub, createClub }

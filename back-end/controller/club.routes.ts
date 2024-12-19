@@ -65,7 +65,8 @@
  */
 import express, { NextFunction, Request, Response } from "express";
 import clubService from "../service/club.service";
-import {JoinClubInput, Role} from "../types";
+import {ClubInput, JoinClubInput, Role} from "../types";
+import {AuthenticationError} from "../util/errors";
 
 const clubRouter = express.Router();
 
@@ -181,6 +182,64 @@ clubRouter.post("/join", async (req: Request, res: Response, next: NextFunction)
         const { role } = request.auth;
         const result = await clubService.addMemberToClub(joinInput, { role });
         res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /clubs:
+ *   post:
+ *      tags: [Club]
+ *      security:
+ *       - bearerAuth: []
+ *      summary: Create a new club
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - name
+ *                - description
+ *                - type
+ *                - organiser
+ *              properties:
+ *                name:
+ *                  type: string
+ *                description:
+ *                  type: string
+ *                type:
+ *                  $ref: '#/components/schemas/ClubType'
+ *                organiser:
+ *                  type: object
+ *                  required:
+ *                    - id
+ *                  properties:
+ *                    id:
+ *                      type: integer
+ *      responses:
+ *         200:
+ *            description: The created club
+ *            content:
+ *              application/json:
+ *                schema:
+ *                  $ref: '#/components/schemas/Club'
+ */
+clubRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const request = req as Request & { auth: { username: string; role: Role } };
+        const { role } = request.auth;
+
+        if (role !== 'admin' && role !== 'organiser') {
+            throw new AuthenticationError('Only admins and organisers can create clubs');
+        }
+
+        const clubInput = <ClubInput>req.body;
+        const club = await clubService.createClub(clubInput);
+        res.status(200).json(club);
     } catch (error) {
         next(error);
     }

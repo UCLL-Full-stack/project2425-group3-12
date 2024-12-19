@@ -67,6 +67,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import eventService from '../service/event.service';
 import {EventInput, EventSignupInput, Role} from '../types';
+import {AuthenticationError} from "../util/errors";
 
 const eventRouter = express.Router();
 
@@ -224,6 +225,72 @@ eventRouter.post('/signup', async (req: Request, res: Response, next: NextFuncti
         const request = req as Request & { auth: { username: string; role: Role } };
         const { role } = request.auth;
         const result = await eventService.addMemberToEvent(signupInput, { role });
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /events:
+ *   post:
+ *      tags: [Event]
+ *      security:
+ *       - bearerAuth: []
+ *      summary: Create a new event
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - title
+ *                - description
+ *                - location
+ *                - date
+ *                - time
+ *                - club
+ *              properties:
+ *                title:
+ *                  type: string
+ *                description:
+ *                  type: string
+ *                location:
+ *                  type: string
+ *                date:
+ *                  type: string
+ *                  format: date
+ *                time:
+ *                  type: string
+ *                  pattern: '^([01]?[0-9]|2[0-3]):[0-5][0-9]$'
+ *                club:
+ *                  type: object
+ *                  required:
+ *                    - id
+ *                  properties:
+ *                    id:
+ *                      type: integer
+ *      responses:
+ *         200:
+ *            description: The created event
+ *            content:
+ *              application/json:
+ *                schema:
+ *                  $ref: '#/components/schemas/Event'
+ */
+eventRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const request = req as Request & { auth: { username: string; role: Role } };
+        const { role } = request.auth;
+
+        if (role !== 'admin' && role !== 'organiser') {
+            throw new AuthenticationError('Only admins and organisers can create events');
+        }
+
+        const eventInput = <EventInput>req.body;
+        const result = await eventService.createNewEvent(eventInput);
         res.status(200).json(result);
     } catch (error) {
         next(error);
