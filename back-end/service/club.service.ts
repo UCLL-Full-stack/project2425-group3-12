@@ -41,7 +41,7 @@ const addMemberToClub = async (
     const member = await memberDb.getMemberById({id: joinInput.member.id});
     if (!member) throw new GameClubError('Member not found');
 
-    if(club.hasMember(member.getId()!)) {
+    if (club.hasMember(member.getId()!)) {
         throw new GameClubError('Member is already in this club');
     }
 

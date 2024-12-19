@@ -76,10 +76,7 @@ const addMemberToEvent = async (
     if (!member) throw new GameClubError('Member not found');
 
     // Check if member is already signed up
-    const isAlreadySignedUp = event.getParticipants().some(
-        participant => participant.getId() === member.getId()
-    );
-    if (isAlreadySignedUp) {
+    if (event.hasParticipant(member.getId()!)) {
         throw new GameClubError('Member is already signed up for this event');
     }
 

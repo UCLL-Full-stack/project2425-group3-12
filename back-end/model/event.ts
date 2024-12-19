@@ -88,6 +88,12 @@ export class Event {
         return sameClub && sameDate && sameTime && sameTitle;
     }
 
+    hasParticipant(memberId: number): boolean {
+        return this.participants.some(participant =>
+            participant.getId() === memberId
+        );
+    }
+
     equals(event: Event): boolean {
         return (
             this.title === event.getTitle() &&
