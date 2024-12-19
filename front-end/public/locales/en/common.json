@@ -53,6 +53,24 @@
           "members": "Members:",
           "organiser": "Organiser:",
           "events": "Events:"
+        },
+        "create": {
+          "title": "Create new event for club",
+          "form": {
+            "name": "Name:",
+            "description": "Description:",
+            "location": "Location:",
+            "date": "Date:",
+            "time": "Time:",
+            "submit": "Create",
+            "validate": {
+              "name": "Name is required",
+              "description": "Description is required",
+              "location": "Location is required",
+              "date": "Date is required",
+              "time": "time is required"
+            }
+          }
         }
       }
     },

@@ -39,13 +39,14 @@ export type Club = {
 }
 
 export type Event = {
-    id: number;
+    id?: number;
     title: string;
     description: string;
     location: string;
     date: Date;
     time: number;
     participants: Member[];
+    // club: Response;
     club: Club;
 }
 
