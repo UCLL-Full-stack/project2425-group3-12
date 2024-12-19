@@ -8,6 +8,7 @@ import { useTranslation } from "next-i18next";
 const UserLoginForm: React.FC = () => {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState<string>();
     // const [nameError, setNameError] = useState<string | null>(null);
     // const [passwordError, setPasswordError] = useState<string | null>(null);
     const [showNameError, setShowNameError] = useState(false);     // Changed this to update the error message
@@ -16,6 +17,7 @@ const UserLoginForm: React.FC = () => {
     const router = useRouter();
 
     const clearErrors = () => {
+        setError("");
         // setNameError(null);
         // setPasswordError(null);
         setShowNameError(false);
@@ -43,7 +45,6 @@ const UserLoginForm: React.FC = () => {
 
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
-
         clearErrors();
 
         if (!validate()) {
@@ -53,39 +54,50 @@ const UserLoginForm: React.FC = () => {
         const user = { username: name, password: password};
         const response = await UserService.loginUser(user);
 
-        if(response.status === 200){
-            setStatusMessages([
-                {
-                    message: t("login.success"),
-                    type: "success",
-                },
-            ]);
+        try {
+            if(!response.ok){
+                // Get the error message from the response
+                const errorData = await response.json();
+                setStatusMessages([
+                    {
+                        message: errorData.errorMessage || t("general.error"),
+                        type: "error",
+                    },
+                ]);
+                return;
+            }
 
-            const user = await response.json();
+            if(response.status === 200){
+                setStatusMessages([
+                    {
+                        message: t("login.success"),
+                        type: "success",
+                    },
+                ]);
 
-            localStorage.setItem(
-                "loggedInUser",
-                JSON.stringify({
-                    token: user.token,
-                    fullname: user.fullname,
-                    username: user.username,
-                    role: user.role
-                })
-            );
+                const user = await response.json();
 
-            setTimeout(() => {
-                router.push("/");
-            }, 2000);
-        } else if (response.status === 401){
-            const { errorMessage } = await response.json();
-            setStatusMessages([{ message: errorMessage, type: 'error'}])
-        } else {
+                localStorage.setItem(
+                    "loggedInUser",
+                    JSON.stringify({
+                        token: user.token,
+                        fullname: user.fullname,
+                        username: user.username,
+                        role: user.role
+                    })
+                );
+
+                setTimeout(() => {
+                    router.push("/");
+                }, 2000);
+            }
+        } catch (err) {
             setStatusMessages([
                 {
                     message: t('general.error'),
                     type: 'error'
                 }
-            ])
+            ]);
         }
     };
 

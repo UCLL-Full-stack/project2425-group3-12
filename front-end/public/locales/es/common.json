@@ -72,7 +72,7 @@
     }
   },
   "signup": {
-    "firstname": "Nombre de pila",
+    "firstname": "Nombre",
     "lastname": "Apellido",
     "email": "Correo electrónico"
   },
