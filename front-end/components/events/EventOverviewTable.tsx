@@ -22,15 +22,8 @@ const EventsOverviewtable: React.FC<Props> = ({events, selectEvent}: Props) => {
 
         // Filter events when user or events data changes
         if (loggedInUser) {
-            if (loggedInUser.role === 'admin') {
+            if (loggedInUser.role === 'admin' || loggedInUser.role === 'member') {
                 setFilteredEvents(events);
-            } else if (loggedInUser.role === 'member') {
-                const memberEvents = events?.filter(
-                    (event) => event?.club?.members?.some(
-                        (member) => member?.user?.username === loggedInUser.username
-                    )
-                ) || [];
-                setFilteredEvents(memberEvents);
             } else {
                 const userEvents = events?.filter(
                     (event) => event?.club?.organiser?.user?.username === loggedInUser.username
@@ -58,6 +51,11 @@ const EventsOverviewtable: React.FC<Props> = ({events, selectEvent}: Props) => {
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Failed to sign up for event');
+            }
+            const refreshResponse = await EventService.getAllEvents();
+            if (refreshResponse.ok) {
+                const updatedEvents = await refreshResponse.json();
+                setFilteredEvents(updatedEvents);
             }
         } catch (error) {
             setSignupError(error instanceof Error ? error.message : 'An error occurred');

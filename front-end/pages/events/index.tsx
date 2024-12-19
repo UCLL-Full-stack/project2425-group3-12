@@ -68,7 +68,7 @@ const Events: React.FC = () => {
                 {selectedEvent && (
                     <section>
                         <>
-                            {/*<h2>{t('events.table.signup')}{selectedEvent.title}</h2>*/}
+                            <h2>{t('events.table.signup')}{selectedEvent.title}</h2>
                             <SignupOverviewTable event={selectedEvent}/>
                         </>
                     </section>

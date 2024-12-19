@@ -20,17 +20,9 @@ const ClubOverviewtable: React.FC<Props> = ({ clubs }: Props) => {
         setLoggedInUser(loggedInUser);
 
         if (loggedInUser) {
-            if (loggedInUser.role === 'admin') {
+            if (loggedInUser.role === 'admin' || loggedInUser.role === 'member') {
                 // Admin sees all clubs
                 setFilteredClubs(clubs);
-            } else if (loggedInUser.role === 'member') {
-                // Member sees clubs where they are a member
-                const memberClubs = clubs?.filter(
-                    (club) => club?.members?.some(
-                        (member) => member?.user?.username === loggedInUser.username
-                    )
-                ) || [];
-                setFilteredClubs(memberClubs);
             } else {
                 // Regular user sees only clubs they organized
                 const userClubs = clubs?.filter(
@@ -64,6 +56,11 @@ const ClubOverviewtable: React.FC<Props> = ({ clubs }: Props) => {
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Failed to join club');
+            }
+            const refreshResponse = await ClubService.getAllClubs();
+            if (refreshResponse.ok) {
+                const updatedClubs = await refreshResponse.json();
+                setFilteredClubs(updatedClubs);
             }
         } catch (error) {
             setJoinError(error instanceof Error ? error.message : 'An error occurred');
