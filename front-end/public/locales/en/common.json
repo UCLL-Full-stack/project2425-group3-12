@@ -64,13 +64,16 @@
         "title": "Game Club info",
         "info": "Info of ",
         "loading": "Loading",
+        "signUpButton": "Sign up",
+        "signedUpButton": "Signed up",
         "overview": {
           "title": "Title",
           "description": "Description",
           "location": "Location",
           "date": "Date",
           "time": "Time",
-          "club": "Club"
+          "club": "Club",
+          "action": "Action"
         }      
       }
     },

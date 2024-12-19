@@ -16,8 +16,8 @@ model User {
   email     String     @unique
   password  String
   role      String
-  member    Member? // Optional relation since a user can be either member or organiser
-  organiser Organiser? // Optional relation since a user can be either member or organiser
+  member    Member?
+  organiser Organiser?
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
@@ -25,19 +25,18 @@ model User {
 // Member model
 model Member {
   id        Int      @id @default(autoincrement())
-  userId    Int      @unique // Ensures one-to-one relationship with User
+  userId    Int      @unique
   user      User     @relation(fields: [userId], references: [id])
-  clubs     Club[] // Direct many-to-many
+  clubs     Club[]
+  events    Event[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Event     Event?   @relation(fields: [eventId], references: [id])
-  eventId   Int?
 }
 
 // Organiser model
 model Organiser {
   id        Int      @id @default(autoincrement())
-  userId    Int      @unique // Ensures one-to-one relationship with User
+  userId    Int      @unique
   user      User     @relation(fields: [userId], references: [id])
   clubs     Club[]
   createdAt DateTime @default(now())
@@ -53,7 +52,7 @@ model Club {
   organiser   Organiser @relation(fields: [organiserId], references: [id])
   organiserId Int
   events      Event[]
-  members     Member[] // Direct many-to-many
+  members     Member[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
@@ -68,7 +67,7 @@ model Event {
   time         String
   club         Club     @relation(fields: [clubId], references: [id])
   clubId       Int
-  participants Member[] // Participants can be members of multiple clubs
+  participants Member[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }

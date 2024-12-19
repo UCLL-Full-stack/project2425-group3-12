@@ -153,15 +153,18 @@ const getEventsByClub = async ({id}: {id: number}): Promise<Event[] | null> => {
     }
 }
 
-const updateEventParticipants = async (event: Event): Promise<Event> => {
+const updateEventParticipants = async (event: Event): Promise<Event | null> => {
     try {
+        // We only want to connect the new participant, not reconnect all existing ones
+        const newParticipant = event.getParticipants()[event.getParticipants().length - 1];
+
         const eventPrisma = await database.event.update({
             where: { id: event.getId() },
             data: {
                 participants: {
-                    connect: event.getParticipants().map(participant => ({
-                        id: participant.getId()
-                    }))
+                    connect: {
+                        id: newParticipant.getId()
+                    }
                 }
             },
             include: {
@@ -187,7 +190,7 @@ const updateEventParticipants = async (event: Event): Promise<Event> => {
             },
         });
 
-        return Event.from(eventPrisma);
+        return eventPrisma ? Event.from(eventPrisma) : null;
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');

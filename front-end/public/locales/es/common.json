@@ -64,13 +64,16 @@
       "title": "Información del club de juegos",
       "info": "Información de ",
       "loading": "Cargando",
+      "signUpButton": "Inscribirse",
+      "signedUpButton": "Inscrito",
       "overview": {
         "title": "Título",
         "description": "Descripción",
         "location": "Ubicación",
         "date": "Fecha",
         "time": "Tiempo",
-        "club": "Club"
+        "club": "Club",
+        "action": "Acción"
       }      
     }
   },
