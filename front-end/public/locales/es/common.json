@@ -37,7 +37,8 @@
         "name": "Nombre",
         "description": "Descripción",
         "type": "Tipo",
-        "organiser": "Organizador"
+        "organiser": "Organizador",
+        "error": "Usted no está autorizado a ver esta página. Por favor, inicie sesión primero."
       },
       "details": {
         "title": "Detalles del club",

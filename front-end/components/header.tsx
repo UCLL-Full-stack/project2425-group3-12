@@ -75,7 +75,8 @@ const Header: React.FC = () => {
         )}
         {loggedInUser && (
           <div className="text-white ms-5 mt-2 md:mt-0 pt-1 md:pt-0 grow">
-            {t('header.welcome')}, {loggedInUser?.firstName}!
+            {t('header.welcome')}, {loggedInUser}!
+            {/* {loggedInUser?.firstName} */}
           </div>
         )}
         <Language/>

@@ -37,7 +37,8 @@
           "name": "Name",
           "description": "Description",
           "type": "Type",
-          "organiser": "Organiser"
+          "organiser": "Organiser",
+          "error": "You are not authorized to view this page. Please login first."
         },
         "details": {
           "title": "Club Details",

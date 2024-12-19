@@ -12,11 +12,28 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 const Clubs: React.FC = () => {
 
     const [clubs, setClubs] = useState<Array<Club>>([]);
+
+
+    const [error, setError] = useState<string>();
     
     const getClubs = async () => {
+        setError("");
+
         const response = await ClubService.getAllClubs();
-        const clubs = await response.json();
-        setClubs(clubs);
+
+        if (!response.ok) {
+            if (response.status === 401) {
+                setError(`${t('clubs.table.error')}`)
+            } else {
+                setError(response.statusText);
+            }
+        } else {
+            const clubs = await response.json();
+            setClubs(clubs);
+        }
+
+        // const clubs = await response.json();
+        // setClubs(clubs);
     }
 
     useEffect(() => {

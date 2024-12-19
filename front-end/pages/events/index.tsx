@@ -12,10 +12,26 @@ const Events: React.FC = () => {
     const [events, setEvents] = useState<Array<Event>>([]);
     const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
+    const [error, setError] = useState<string>(); // new for unauthorized
+
     const getEvents = async () => {
-        const response = await EventService.getAllEvents();
-        const events = await response.json();
-        setEvents(events);
+        setError("");           // new for unauthorized
+        
+        const response = await EventService.getAllEvents();         // was already here
+
+        if (!response.ok) {
+            if (response.status === 401) {
+                setError(`${t('clubs.table.error')}`)
+            } else {
+                setError(response.statusText);
+            }
+        } else {
+            const events = await response.json();
+            setEvents(events);
+        }
+
+        // const events = await response.json();            // was already here
+        //     setEvents(events);                           // was already here
     }
 
     useEffect(() => {
